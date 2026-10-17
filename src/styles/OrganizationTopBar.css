@@ -1,0 +1,248 @@
+
+/* ==========================================
+   ORGANIZATION TOP NAVIGATION BAR
+========================================== */
+
+.sas-portal-topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2000;
+
+  width: 100%;
+  height: 74px;
+
+  background: #104c08;
+  box-sizing: border-box;
+}
+
+/* ==========================================
+   TOP BAR ALIGNMENT - RIGHT SIDE
+========================================== */
+
+.sas-portal-topbar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  width: 100%;
+  height: 100%;
+
+  margin: 0;
+  padding: 0 36px;
+
+  box-sizing: border-box;
+}
+
+/* Remove the old centered grid spacer */
+.sas-portal-topbar-spacer {
+  display: none;
+}
+
+/* ==========================================
+   ORGANIZATION ACCOUNT
+========================================== */
+
+.sas-portal-account {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+
+  margin-left: auto;
+}
+
+.sas-portal-account-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  padding: 7px 12px;
+
+  border: none;
+  border-radius: 7px;
+
+  background: transparent;
+  color: #ffffff;
+
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 700;
+
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.sas-portal-account-trigger:hover,
+.sas-portal-account-trigger[aria-expanded="true"] {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.sas-portal-account-trigger:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
+}
+
+/* ==========================================
+   ACCOUNT LOGO
+========================================== */
+
+.sas-portal-account-logo,
+.sas-portal-account-initials {
+  width: 42px;
+  height: 42px;
+
+  flex-shrink: 0;
+
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+}
+
+.sas-portal-account-logo {
+  display: block;
+  object-fit: cover;
+}
+
+.sas-portal-account-initials {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #e4ede6;
+  color: #166534;
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* ==========================================
+   USERNAME AND DROPDOWN ARROW
+========================================== */
+
+.sas-portal-account-name {
+  color: #ffffff;
+  font-size: 17px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.sas-portal-chevron {
+  color: #ffffff;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.sas-portal-chevron.is-open {
+  transform: rotate(180deg);
+}
+
+/* ==========================================
+   ACCOUNT DROPDOWN MENU
+========================================== */
+
+.sas-portal-menu {
+  position: absolute;
+
+  top: calc(100% + 10px);
+  right: 0;
+  z-index: 2100;
+
+  min-width: 180px;
+
+  padding: 6px;
+
+  background: #ffffff;
+  border: 1px solid #e2e8e2;
+  border-radius: 8px;
+
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+}
+
+.sas-portal-menu-logout {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  width: 100%;
+  padding: 12px 14px;
+
+  border: none;
+  border-radius: 5px;
+
+  background: transparent;
+  color: #b42318;
+
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  text-align: left;
+
+  cursor: pointer;
+}
+
+.sas-portal-menu-logout:hover {
+  background: #fff1f0;
+}
+
+.sas-portal-menu-logout:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ==========================================
+   TABLET
+========================================== */
+
+@media (max-width: 900px) {
+  .sas-portal-topbar-inner {
+    padding: 0 24px;
+  }
+
+  .sas-portal-account-name {
+    font-size: 15px;
+  }
+}
+
+/* ==========================================
+   MOBILE
+========================================== */
+
+@media (max-width: 600px) {
+  .sas-portal-topbar {
+    height: 64px;
+  }
+
+  .sas-portal-topbar-inner {
+    padding: 0 14px;
+  }
+
+  .sas-portal-account-trigger {
+    gap: 8px;
+    padding: 6px;
+  }
+
+  .sas-portal-account-logo,
+  .sas-portal-account-initials {
+    width: 34px;
+    height: 34px;
+  }
+
+  .sas-portal-account-name {
+    max-width: 135px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 14px;
+  }
+}
+
+/* ==========================================
+   REDUCED MOTION
+========================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .sas-portal-account-trigger,
+  .sas-portal-chevron {
+    transition: none;
+  }
+}

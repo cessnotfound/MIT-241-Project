@@ -1,0 +1,60 @@
+/* Organizational Structure: landing card and detail view only. */
+.structure-page .structure-election-card { display:flex;align-items:center;justify-content:space-between;gap:20px;width:100%;padding:24px 26px;background:#fff;border:1px solid #d6e0da;border-radius:7px;text-align:left;cursor:pointer;color:#1e293b;box-shadow:0 2px 5px rgba(0,0,0,.06);transition:background .15s,border-color .15s; }
+.structure-page .structure-election-card:hover { background:#eaf5ed;border-color:#167333; }
+.structure-page .structure-election-card:focus-visible, .structure-page .structure-back-icon:focus-visible,.structure-page .structure-icon-submit:focus-visible,.structure-page .structure-icon-cancel:focus-visible {outline:2px solid #167333;outline-offset:3px;}
+.structure-page .structure-election-card-copy{display:flex;flex-direction:column;gap:6px;min-width:0;}
+.structure-page .structure-election-card-copy strong{font-size:19px;font-weight:700;color:#173b28;}
+.structure-page .structure-election-card-copy small{font-size:14px;color:#64748b;}
+.structure-page .structure-election-card > svg{flex:none;color:#166534;}
+.structure-page .structure-details-toolbar{display:flex;align-items:center;gap:15px;padding:8px 0 22px;border-bottom:1px solid #d5ddda;margin-bottom:24px;}
+.structure-page .structure-details-toolbar h2{font-size:24px;margin:0 0 4px;color:#192a3c;}
+.structure-page .structure-details-toolbar p{font-size:14px;color:#64748b;margin:0;}
+.structure-page .structure-back-icon,.structure-page .structure-icon-submit,.structure-page .structure-icon-cancel{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;padding:6px;border:0;background:transparent;cursor:pointer;transition:background .15s;}
+.structure-page .structure-back-icon,.structure-page .structure-icon-submit{color:#166534;}
+.structure-page .structure-icon-cancel{color:#ba2525;}
+.structure-page .structure-back-icon:hover,.structure-page .structure-icon-submit:hover{background:#e7f3e9;border-radius:6px;}
+.structure-page .structure-icon-cancel:hover{background:#fff0f0;border-radius:6px;}
+.structure-page .structure-icon-submit:disabled,.structure-page .structure-icon-cancel:disabled{opacity:.45;cursor:not-allowed;}
+.structure-page .structure-actions{display:flex;align-items:center;gap:10px;}
+.structure-page .structure-visually-hidden{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
+@media(max-width:600px){.structure-page .structure-election-card{padding:18px 14px}.structure-page .structure-details-toolbar h2{font-size:20px}}
+
+/* Unified adviser/officer editing: action icons align with fields. */
+.structure-page .structure-entry-form .structure-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px 24px;
+  align-items: end;
+}
+.structure-page .structure-entry-form .structure-form-grid label {min-width:0;}
+.structure-page .structure-entry-form .structure-form-grid input {width:100%;box-sizing:border-box;}
+.structure-page .structure-entry-form {
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  column-gap:16px;
+  align-items:end;
+}
+.structure-page .structure-entry-form > h3 {grid-column:1/-1;}
+.structure-page .structure-entry-form .structure-actions {grid-column:2;grid-row:2;align-self:end;margin:0 0 2px;}
+.structure-page .structure-entry-form .structure-form-grid {grid-column:1;grid-row:2;}
+.structure-page .structure-row-actions {display:flex;align-items:center;gap:12px;justify-content:flex-start;}
+.structure-page .structure-row-actions button.structure-icon-edit,
+.structure-page .structure-row-actions button.structure-remove-button {
+  display:inline-flex;align-items:center;justify-content:center;
+  width:38px;height:38px;min-width:38px;padding:8px;
+  border:0!important;background:transparent!important;box-shadow:none!important;
+  border-radius:5px;color:#166534;cursor:pointer;
+}
+.structure-page .structure-row-actions button.structure-remove-button {color:#dc2626;}
+.structure-page .structure-row-actions button.structure-icon-edit:hover {background:#eaf5ed!important;}
+.structure-page .structure-row-actions button.structure-remove-button:hover {background:#fef2f2!important;}
+.structure-page .structure-row-actions button:focus-visible {outline:2px solid #166534;outline-offset:2px;}
+.structure-page .structure-row-actions svg {width:20px;height:20px;flex:none;}
+.structure-page .structure-table th:last-child,
+.structure-page .structure-table td:last-child {width:120px;white-space:nowrap;}
+@media(max-width:800px) {
+  .structure-page .structure-entry-form {grid-template-columns:1fr;}
+  .structure-page .structure-entry-form .structure-form-grid {grid-column:1;grid-row:auto;}
+  .structure-page .structure-entry-form .structure-actions {grid-column:1;grid-row:auto;justify-content:flex-end;margin-top:10px;}
+}
+@media(max-width:520px) { .structure-page .structure-entry-form .structure-form-grid {grid-template-columns:1fr;} }

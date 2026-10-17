@@ -1,0 +1,708 @@
+.accomplishments-page{color:#10283c;width:100%;padding-bottom:50px}
+.accomplishments-page h1{font-size:34px;margin:0 0 28px;font-weight:700}
+.accomplishments-page h2{font-size:23px;margin:22px 0 12px;padding-bottom:14px;border-bottom:1px solid #d4d9dc}
+.accomplishments-page h3{font-size:19px;margin:20px 0 12px}
+.accomplishments-page button{cursor:pointer}
+.ac-primary{background:#147534;border:none;border-radius:5px;color:white;padding:12px 20px;font-size:15px;font-weight:600}
+.ac-primary:hover{background:#105e2b}
+.ac-primary:disabled{opacity:.55;cursor:wait}
+.ac-report-row{display:grid;grid-template-columns:2fr 1fr 1fr auto;align-items:center;gap:20px;padding:20px 10px;border-bottom:1px solid #d9dfe1}
+.ac-report-open{background:none;border:none;text-align:left;color:#123e29;font-size:16px}
+.ac-report-row small,.ac-report-open small,.ac-table small{display:block;font-size:13px;color:#64748b;margin-top:5px;line-height:1.5}
+.ac-delete{border:1px solid #e9a5a5;border-radius:4px;background:white;color:#b91c1c;padding:8px 12px}
+.ac-muted,.ac-hint{color:#64748b;font-size:14px;line-height:1.6}
+.ac-create{max-width:600px}
+.ac-create label,.ac-form label{display:flex;flex-direction:column;font-size:14px;font-weight:600;gap:6px}
+.ac-create input,.ac-create select,.ac-form input,.ac-form select,.ac-form textarea{border:1px solid #cbd5d1;border-radius:4px;padding:10px 12px;width:100%;font:inherit;color:#152839;background:white}
+.ac-create select{margin-top:8px}
+.ac-actions{display:flex;gap:12px;align-items:center;margin-top:20px}
+.ac-actions button:not(.ac-primary){background:white;border:1px solid #bac9bc;border-radius:4px;padding:11px 20px}
+.ac-error{background:#fff3f2;border:1px solid #f3c6c1;border-radius:4px;padding:11px;color:#a02219}
+.ac-headline{display:flex;gap:18px;align-items:center;margin:4px 0 24px;padding-bottom:18px;border-bottom:1px solid #d4d9dc}
+.ac-headline p{margin:5px 0 0;color:#64748b;font-size:14px}
+.ac-back{padding:8px 12px;border:1px solid #bec9c3;background:white;color:#126733;border-radius:4px}
+.ac-tabs{display:flex;border-bottom:1px solid #d4d9dc;flex-wrap:wrap;gap:3px}
+.ac-tabs button{background:white;color:#13662e;border:0;border-bottom:3px solid transparent;padding:15px 18px;font-weight:600}
+.ac-tabs button.active{background:#e7e7e7;border-bottom-color:#166534}
+.ac-table-wrap{overflow-x:auto}
+.ac-table{width:100%;border-collapse:collapse;font-size:14px;text-align:left;margin:15px 0 20px}
+.ac-table th{border-bottom:1px solid #cfd6d8;padding:13px 10px;white-space:nowrap}
+.ac-table td{border-bottom:1px solid #e3e7e9;padding:14px 10px;vertical-align:top}
+.ac-form{border-top:1px solid #d4d9dc;margin-top:25px;padding-top:10px}
+.ac-form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 22px}
+.ac-wide{grid-column:1 / -1}
+.ac-summary-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:15px 0 30px}
+.ac-summary-grid>div{border-bottom:1px solid #d5ddd8;padding:10px 0}
+.ac-summary-grid p{font-size:22px;font-weight:700;margin:8px 0}
+@media(max-width:750px){.ac-report-row{grid-template-columns:1fr 1fr}.ac-form-grid,.ac-summary-grid{grid-template-columns:1fr}.ac-wide{grid-column:auto}.accomplishments-page h1{font-size:27px}}
+
+/* Activity details: white background and thin dividers */
+.ac-row-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.ac-view{background:#fff;color:#126733;border:1px solid #b3cbb9;border-radius:4px;padding:8px 12px;font-weight:600;white-space:nowrap}
+.ac-view:hover{background:#edf7ef}
+.ac-details-row td{padding:0 10px 22px !important}
+.ac-details-panel{border-top:1px solid #d8dedb;padding:14px 8px 4px;background:#fff}
+.ac-details-panel h3{margin:0 0 16px;font-size:17px}
+.ac-details-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 28px;margin:0}
+.ac-details-grid>div{padding:12px 0;border-bottom:1px solid #e1e6e3;min-width:0}
+.ac-details-grid dt{font-size:13px;font-weight:700;color:#314b40;margin-bottom:5px}
+.ac-details-grid dd{margin:0;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.5}
+.ac-details-grid .ac-details-wide{grid-column:1/-1}
+@media(max-width:700px){.ac-details-grid{grid-template-columns:1fr}.ac-details-grid .ac-details-wide{grid-column:auto}}
+
+/* Report-style activity dialog */
+.ac-modal-overlay{position:fixed;inset:0;z-index:1000;background:rgba(12,26,31,.65);display:flex;justify-content:center;align-items:center;padding:20px}
+.ac-modal{width:min(900px,100%);max-height:92vh;overflow:auto;background:#fff;border-radius:7px;box-shadow:0 15px 60px #0004;padding:0 28px 25px;color:#12253a}
+.ac-modal-header{position:sticky;top:0;z-index:2;background:#fff;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #d4d9dc;padding:16px 0;font-size:17px}
+.ac-modal-header button{background:none;border:0;font-size:30px;color:#50615a;padding:0 8px}
+.ac-printable{padding:10px 12px 20px}
+.accomplishments-page .ac-report-title{text-align:center;font-family:Georgia,serif;font-size:25px;border:0;margin:12px 0 24px;padding:0}
+.ac-report-meta{margin:0 0 25px;display:grid;grid-template-columns:1fr 1fr;gap:10px 30px}
+.ac-report-meta>div{display:grid;grid-template-columns:130px 1fr;gap:10px}
+.ac-report-meta dt{font-weight:700;color:#263b42}.ac-report-meta dd{margin:0;white-space:pre-wrap;overflow-wrap:anywhere}
+.ac-photo-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin:12px 0 23px}
+.ac-photo-grid figure{margin:0}.ac-photo-grid img{width:100%;height:190px;object-fit:cover;border:1px solid #d0d5d5;border-radius:3px}
+.ac-photo-grid figcaption{font-size:12px;color:#64748b}
+.ac-printable h3{margin-top:22px;border-bottom:1px solid #d7ddda;padding-bottom:8px}
+.ac-narrative{line-height:1.75;white-space:pre-wrap;text-align:justify}
+.ac-popup-form{border:0;margin:0;padding:25px 0 0}.ac-modal-photos{border-top:1px solid #dae0dd;margin-top:20px;padding-top:12px}
+.ac-upload-label{font-weight:600;display:grid;gap:8px;margin-bottom:15px}.ac-upload-label input{max-width:100%}
+.ac-modal-footer{display:flex;justify-content:flex-end;gap:10px;border-top:1px solid #dce0df;padding-top:16px;margin-top:18px}
+@media(max-width:700px){.ac-modal{padding:0 15px 20px}.ac-report-meta{grid-template-columns:1fr}.ac-report-meta>div{grid-template-columns:105px 1fr}.ac-photo-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* Uploads shown while creating an activity and inside the edit popup */
+.ac-new-attachments{margin-top:24px;padding-top:18px;border-top:1px solid #d7ddda}
+.ac-new-attachments h4{margin:12px 0 10px;font-size:16px}
+.ac-new-attachments .ac-upload-label{font-size:14px;font-weight:500}
+.ac-new-attachments input[type=file]{display:block;margin-top:6px;max-width:100%;padding:10px;border:1px dashed #9bbca8;border-radius:5px;background:#fff}
+.ac-document-list{display:grid;gap:10px;margin:12px 0 22px}
+.ac-document-list>div{display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:1px solid #e2e7e4;padding:8px 0}
+.ac-document-list a{color:#17693a;overflow-wrap:anywhere}
+
+/* Keep the tangible project table and modal consistent with Activities */
+.ac-table .ac-row-actions{margin-top:0;flex-wrap:nowrap}
+.ac-table .ac-row-actions .ac-delete{white-space:nowrap}
+.ac-modal .ac-printable .ac-report-meta{padding-top:10px}
+.ac-modal .ac-printable .ac-report-meta>div{min-width:0}
+@media(max-width:800px){.ac-table .ac-row-actions{flex-wrap:wrap}}
+
+/* Raw points per record and subtotal rows */
+.ac-table .ac-points-cell{white-space:nowrap;font-variant-numeric:tabular-nums;font-weight:650;color:#145c36}
+.ac-table tfoot .ac-points-total{background:#f2f7f3;border-top:2px solid #a7c8b2}
+.ac-table tfoot td{padding:16px 12px}
+.ac-points-note{font-size:12px;color:#66758b;margin:9px 0 18px;line-height:1.5}
+.ac-unscored{font-size:12px;color:#8a5a00;font-weight:normal}
+
+/* Category summary (raw totals and official category weight labels) */
+.ac-summary-scores th,.ac-summary-scores td{vertical-align:middle}
+.ac-summary-scores th:not(:first-child),.ac-summary-scores td:not(:first-child){text-align:right}
+.ac-summary-scores .ac-rating-pending{color:#65758b;font-size:13px}
+.ac-summary-scores .ac-unscored{display:block;white-space:normal}
+@media(max-width:700px){.ac-summary-scores{min-width:710px}}
+
+/* Targeted restoration: same hover affordance as Financial Statements */
+.accomplishments-page .ac-report-row {
+  margin-top: 14px;
+  border-radius: 6px;
+  transition: background-color .2s ease, box-shadow .2s ease;
+}
+.accomplishments-page .ac-report-row:hover,
+.accomplishments-page .ac-report-row:focus-within {
+  background: #e8f5e9;
+  box-shadow: inset 4px 0 0 #15803d;
+}
+.accomplishments-page .ac-report-open {
+  padding: 0;
+  cursor: pointer;
+}
+.accomplishments-page .ac-report-open:focus-visible,
+.accomplishments-page .ac-back:focus-visible {
+  outline: 2px solid #166534;
+  outline-offset: 3px;
+}
+/* Same compact square back affordance as FS, retaining the original '← Reports' wording */
+.accomplishments-page .ac-back {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  flex-shrink: 0;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.accomplishments-page .ac-back:hover {
+  background: #e8f5e9;
+  border-color: #166534;
+}
+/* Keep report popup fully below the SAS fixed top bar */
+.accomplishments-page .ac-modal-overlay {
+  top: 74px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 12px 18px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.accomplishments-page .ac-modal {
+  max-height: calc(100vh - 100px);
+  max-height: calc(100dvh - 100px);
+  box-sizing: border-box;
+}
+@media (max-width:600px) {
+  .accomplishments-page .ac-modal-overlay {top:64px;padding:10px;}
+  .accomplishments-page .ac-modal {
+    max-height: calc(100vh - 84px);
+    max-height: calc(100dvh - 84px);
+  }
+}
+@media (prefers-reduced-motion:reduce) {
+  .accomplishments-page .ac-report-row {transition:none;}
+}
+
+/* Icon-only back button matches Financial Statements. */
+.accomplishments-page .ac-back { display:inline-flex; align-items:center; justify-content:center; width:52px; height:52px; padding:0; flex:0 0 52px; border:1px solid #c4d2ca; border-radius:7px; background:#fff; color:#166534; transition:background-color .15s,border-color .15s; }
+.accomplishments-page .ac-back:hover { background:#e7f3e9; border-color:#166534; }
+.accomplishments-page .ac-back:focus-visible { outline:2px solid #166534; outline-offset:3px; }
+.accomplishments-page .ac-back svg {display:block;}
+
+/* Five summary columns; allow horizontal scrolling on narrow screens */
+.ac-summary-scores{min-width:850px}
+.ac-summary-scores td:last-child,.ac-summary-scores th:last-child{white-space:nowrap}
+
+/* Activity Report VIEW: description follows photos; documents are last. */
+.accomplishments-page .ac-view-description {
+  margin: 12px 0 25px;
+  color: #243448;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.accomplishments-page .ac-printable > .ac-photo-grid { margin-bottom: 12px; }
+
+/* Consistent, uncluttered Add/Edit attachment handling */
+.accomplishments-page .ac-photo-tile,
+.accomplishments-page .ac-popup-form .ac-photo-grid figure {
+  position: relative;
+  min-width: 0;
+}
+.accomplishments-page .ac-photo-tile img,
+.accomplishments-page .ac-popup-form .ac-photo-grid img {
+  display: block;
+  width: 100%;
+  height: 158px;
+  border-radius: 6px;
+  object-fit: cover;
+}
+.accomplishments-page .ac-remove-x {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid rgba(255,255,255,.8);
+  border-radius: 6px;
+  background: rgba(25,37,49,.88);
+  color: #fff;
+  font: 700 21px/1 system-ui, sans-serif;
+  cursor: pointer;
+}
+.accomplishments-page .ac-remove-x:hover {background:#b42318}
+.accomplishments-page .ac-remove-x:focus-visible {outline:3px solid #166534; outline-offset:2px}
+.accomplishments-page .ac-remove-x:disabled {opacity:.5;cursor:not-allowed}
+.accomplishments-page .ac-document-list > div {min-width:0;display:flex;gap:10px;align-items:center;justify-content:space-between}
+.accomplishments-page .ac-document-list > div a,
+.accomplishments-page .ac-document-list > div span {min-width:0;overflow-wrap:anywhere}
+.accomplishments-page .ac-inline-x {
+  position:static;
+  flex:0 0 28px;
+  background:#fff;
+  color:#b42318;
+  border-color:#f2b6b6;
+}
+.accomplishments-page .ac-inline-x:hover {background:#fff0f0}
+.accomplishments-page .ac-preview-grid {grid-template-columns:repeat(auto-fill,minmax(120px,1fr))}
+.accomplishments-page .ac-preview-grid img {height:155px}
+.accomplishments-page .ac-popup-form {padding-top:18px}
+.accomplishments-page .ac-popup-form .ac-form-grid {gap:14px 18px}
+.accomplishments-page .ac-popup-form textarea {min-height:65px}
+.accomplishments-page .ac-modal-photos {margin-top:18px;padding-top:14px}
+.accomplishments-page .ac-modal-photos h3 {margin-top:0}
+.accomplishments-page .ac-bottom-actions {
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+  margin-top:24px;
+  padding-top:16px;
+  border-top:1px solid #dce0df;
+}
+.accomplishments-page .ac-popup-form + .ac-modal-footer:empty {display:none}
+.accomplishments-page .ac-printable .ac-view-description {white-space:pre-wrap;overflow-wrap:anywhere}
+@media(max-width:600px) {
+  .accomplishments-page .ac-preview-grid {grid-template-columns:repeat(2,minmax(0,1fr))}
+  .accomplishments-page .ac-bottom-actions {flex-wrap:wrap}
+}
+
+/* Final HCI treatment — Add and Edit Activities / Projects */
+.accomplishments-page .ac-form {max-width: 900px}
+.accomplishments-page .ac-form-grid {gap: 13px 17px}
+.accomplishments-page .ac-form label {gap: 5px}
+.accomplishments-page .ac-form textarea {min-height: 65px}
+.accomplishments-page .ac-form-grid > .ac-wide {grid-column: 1 / -1}
+.accomplishments-page .ac-more-details {border: 1px solid #dbe5df;border-radius:6px;padding:10px 12px;}
+.accomplishments-page .ac-more-details summary {cursor:pointer;color:#166534;font-weight:650;}
+.accomplishments-page .ac-more-details .ac-form-grid {margin-top:14px}
+.accomplishments-page .ac-attachments-title {font-size:16px;margin:0 0 12px}
+.accomplishments-page .ac-attachment-choices {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-bottom:12px}
+.accomplishments-page .ac-attachment-picker {position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:86px;padding:12px;background:#fff;border:1px solid #cbded0;border-radius:8px;color:#116530;cursor:pointer;text-align:center;overflow:hidden}
+.accomplishments-page .ac-attachment-picker:hover {background:#f0f8f1;border-color:#16813c}
+.accomplishments-page .ac-attachment-picker:focus-within {outline:2px solid #16813c;outline-offset:2px}
+.accomplishments-page .ac-attachment-picker strong {font-size:14px}
+.accomplishments-page .ac-attachment-picker small {font-size:11px;color:#66798c}
+.accomplishments-page .ac-picker-plus {font-size:24px;line-height:1;font-weight:500}
+.accomplishments-page .ac-attachment-file {position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;padding:0}
+.accomplishments-page .ac-attachment-picker:has(input:disabled) {opacity:.55;cursor:wait}
+.accomplishments-page .ac-new-attachments {border-top:1px solid #d9dfda;padding-top:16px;margin-top:18px}
+.accomplishments-page .ac-modal-photos {padding:12px 0;margin:8px 0;border-top:1px solid #e2e9e4}
+.accomplishments-page .ac-modal-photos h3 {margin:0 0 10px}
+.accomplishments-page .ac-modal-photos .ac-attachment-picker {max-width:420px}
+.accomplishments-page .ac-bottom-actions {justify-content:flex-end;position:relative;margin-top:20px;padding-top:15px;border-top:1px solid #dbe2dc}
+@media (max-width:640px) {.accomplishments-page .ac-attachment-choices {grid-template-columns:1fr}}
+
+/* Compact, consistent Add/Edit fields and optional disclosures */
+.accomplishments-page .ac-more-details {padding: 0; border:0; background:transparent;}
+.accomplishments-page .ac-more-details > summary {display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border:1px solid #cbded0;border-radius:6px;list-style:none;color:#166534;font-size:14px;font-weight:600;background:#fff;cursor:pointer;}
+.accomplishments-page .ac-more-details > summary::-webkit-details-marker {display:none;}
+.accomplishments-page .ac-more-details > summary::before {content:'+';font-size:20px;line-height:1;}
+.accomplishments-page .ac-more-details[open] > summary::before {content:'−';}
+.accomplishments-page .ac-more-details > summary:hover {background:#edf7ee;}
+.accomplishments-page .ac-detail-optional {color:#64748b;font-weight:400;font-size:12px;}
+.accomplishments-page .ac-more-details .ac-form-grid {margin-top:12px;padding:12px;border:1px solid #dbe5df;border-radius:6px;}
+.accomplishments-page .ac-more-details input {min-height:42px;}
+.accomplishments-page .ac-selection-preview {border:1px solid #e0e7e1;border-radius:7px;padding:10px 12px;margin:12px 0;background:#f8fbf8;min-width:0;}
+.accomplishments-page .ac-selection-heading {font-weight:700;font-size:13px;margin:0 0 10px;color:#16462a;}
+.accomplishments-page .ac-preview-grid {margin:0;}
+.accomplishments-page .ac-attachment-picker {min-height:70px;padding:9px;}
+.accomplishments-page .ac-selected-documents {margin:0;}
+.accomplishments-page .ac-selected-documents > div {display:flex;align-items:center;justify-content:space-between;gap:10px;word-break:break-word;}
+.accomplishments-page .ac-selected-documents .ac-inline-x {flex-shrink:0;}
+@media (max-width:640px){.accomplishments-page .ac-more-details .ac-form-grid{grid-template-columns:1fr;}}
+
+/* FINAL: one horizontal row of identical plus controls (Activity: 3; Project: 2). */
+.accomplishments-page .ac-inline-add-row {
+  display:flex;flex-wrap:wrap;align-items:flex-start;gap:10px;
+  margin:14px 0 10px;
+}
+.accomplishments-page .ac-inline-add-row .ac-more-details {padding:0;border:0;background:transparent;margin:0;display:contents;}
+.accomplishments-page .ac-inline-add-row .ac-more-details > summary,
+.accomplishments-page .ac-inline-add-row .ac-attachment-picker {
+  box-sizing:border-box;display:inline-flex;flex-direction:row;align-items:center;justify-content:center;
+  gap:7px;width:auto;min-height:46px;max-width:none;margin:0;
+  padding:9px 14px;background:#fff;border:1px solid #cbded0;border-radius:6px;
+  color:#166534;font-family:inherit;font-size:14px;font-weight:650;white-space:nowrap;
+  cursor:pointer;text-align:left;overflow:visible;
+}
+.accomplishments-page .ac-inline-add-row .ac-more-details > summary::before,
+.accomplishments-page .ac-inline-add-row .ac-picker-plus {font-size:20px;line-height:1;font-weight:700;}
+.accomplishments-page .ac-inline-add-row .ac-more-details > summary:hover,
+.accomplishments-page .ac-inline-add-row .ac-attachment-picker:hover {background:#edf7ee;border-color:#a7c8af;}
+.accomplishments-page .ac-inline-add-row .ac-attachment-picker strong {font-size:14px;font-weight:650;}
+.accomplishments-page .ac-inline-add-row .ac-attachment-file {position:absolute;inset:0;opacity:0;width:100%;height:100%;cursor:pointer;}
+.accomplishments-page .ac-inline-add-row .ac-attachment-picker {position:relative;}
+.accomplishments-page .ac-inline-add-row .ac-more-details[open] .ac-form-grid {
+  position:relative;width:100%;flex-basis:100%;
+}
+/* Keep the expanded details panel below all three buttons, even if the DOM
+   renders it inside details. */
+.accomplishments-page .ac-inline-add-row .ac-more-details {display:block;}
+.accomplishments-page .ac-inline-add-row .ac-more-details[open] {flex-basis:100%;}
+.accomplishments-page .ac-inline-add-row .ac-more-details[open] > summary {width:max-content;}
+.accomplishments-page .ac-inline-selections {margin:0;padding:0;border:0;}
+.accomplishments-page .ac-attachment-content {padding:0;margin:8px 0;border:0;}
+.accomplishments-page .ac-attachment-content:has(.ac-photo-grid:empty),
+.accomplishments-page .ac-attachment-content:has(.ac-document-list:empty) {margin:0;}
+@media (max-width:640px){.accomplishments-page .ac-inline-add-row{gap:8px;}}
+
+/* Activity Add/Edit: shared layout: Name full, Role/Type half,
+   Level/Start/End thirds, Description full. Tangible Projects unchanged. */
+.accomplishments-page .ac-form-grid.ac-activity-layout {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 14px 18px;
+}
+.accomplishments-page .ac-activity-layout > .ac-wide { grid-column: 1 / -1; }
+.accomplishments-page .ac-activity-layout > .ac-activity-half { grid-column: span 3; min-width: 0; }
+.accomplishments-page .ac-activity-layout > .ac-activity-third { grid-column: span 2; min-width: 0; }
+.accomplishments-page .ac-activity-layout > label input,
+.accomplishments-page .ac-activity-layout > label select,
+.accomplishments-page .ac-activity-layout > label textarea { width: 100%; min-width: 0; box-sizing: border-box; }
+@media (max-width: 750px) {
+  .accomplishments-page .ac-form-grid.ac-activity-layout { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .accomplishments-page .ac-activity-layout > .ac-wide { grid-column: 1 / -1; }
+  .accomplishments-page .ac-activity-layout > .ac-activity-half,
+  .accomplishments-page .ac-activity-layout > .ac-activity-third { grid-column: span 1; }
+  .accomplishments-page .ac-activity-layout > .ac-activity-third:first-of-type { grid-column: 1 / -1; }
+}
+@media (max-width: 460px) {
+  .accomplishments-page .ac-form-grid.ac-activity-layout { grid-template-columns: 1fr; }
+  .accomplishments-page .ac-activity-layout > .ac-wide,
+  .accomplishments-page .ac-activity-layout > .ac-activity-half,
+  .accomplishments-page .ac-activity-layout > .ac-activity-third { grid-column: 1 / -1; }
+}
+
+/* UNIFIED ADD/EDIT ACTIVITY — matching field width and a single button row */
+.accomplishments-page .ac-form-grid.ac-activity-layout > label:first-child {
+  grid-column: 1 / -1;
+}
+.accomplishments-page .ac-inline-add-row {
+  display: grid;
+  grid-template-columns: max-content max-content max-content;
+  column-gap: 10px;
+  row-gap: 12px;
+  align-items: start;
+  justify-content: start;
+}
+.accomplishments-page .ac-inline-add-row > .ac-more-details {
+  display: contents;
+}
+.accomplishments-page .ac-inline-add-row > .ac-more-details > summary {
+  grid-column: 1;
+  grid-row: 1;
+}
+.accomplishments-page .ac-inline-add-row > .ac-attachment-picker:nth-of-type(1) {
+  grid-column: 2;
+  grid-row: 1;
+}
+.accomplishments-page .ac-inline-add-row > .ac-attachment-picker:nth-of-type(2) {
+  grid-column: 3;
+  grid-row: 1;
+}
+.accomplishments-page .ac-inline-add-row > .ac-more-details[open] > .ac-form-grid {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  width: min(100%, 900px);
+  box-sizing: border-box;
+}
+/* Projects: only two plus controls, on the same row */
+.accomplishments-page .ac-inline-add-row:not(:has(> .ac-more-details)) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+@media (max-width: 660px) {
+  .accomplishments-page .ac-inline-add-row:has(> .ac-more-details) {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .accomplishments-page .ac-inline-add-row > .ac-more-details[open] > .ac-form-grid {
+    flex-basis: 100%;
+  }
+}
+
+/* Focused corrections: unified optional row and compact attachment previews */
+.accomplishments-page .ac-inline-add-row,
+.accomplishments-page .ac-inline-add-row:has(> .ac-more-details),
+.accomplishments-page .ac-inline-add-row:not(:has(> .ac-more-details)) {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-start;
+  gap: 10px; margin: 16px 0 10px; width: 100%;
+}
+.accomplishments-page .ac-inline-add-row > .ac-inline-detail-toggle,
+.accomplishments-page .ac-inline-add-row > .ac-attachment-picker {
+  position: relative; box-sizing: border-box; display: inline-flex;
+  flex: 0 0 auto; align-items: center; justify-content: center; gap: 8px;
+  width: auto; min-width: 0; max-width: 100%; height: 46px; min-height: 46px;
+  padding: 9px 14px; margin: 0; border: 1px solid #cbded0;
+  border-radius: 6px; background: #fff; color: #166534;
+  font-family: inherit; font-size: 14px; font-weight: 650;
+  cursor: pointer; white-space: nowrap;
+}
+.accomplishments-page .ac-inline-add-row > .ac-inline-detail-toggle:hover,
+.accomplishments-page .ac-inline-add-row > .ac-attachment-picker:hover {background:#edf7ee;}
+.accomplishments-page .ac-inline-detail-toggle > span:first-child {font-size:20px;line-height:1;font-weight:700;}
+.accomplishments-page .ac-inline-add-row > .ac-attachment-picker strong {font-size:14px;font-weight:650;}
+.accomplishments-page .ac-inline-add-row > .ac-attachment-picker .ac-attachment-file {position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;}
+.accomplishments-page .ac-optional-fields {
+  display:grid; grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px 18px; width:100%; max-width:100%;
+  margin:12px 0 18px; padding:16px; border:1px solid #d8e3db;
+  border-radius:8px; background:#fff; box-sizing:border-box;
+}
+.accomplishments-page .ac-optional-fields label {min-width:0;}
+.accomplishments-page .ac-optional-fields input,
+.accomplishments-page .ac-optional-fields select {width:100%;min-width:0;box-sizing:border-box;min-height:42px;}
+/* Prevent a single image from expanding to fill the modal. Applies to both
+   newly chosen local files and previously uploaded edit-mode attachments. */
+.accomplishments-page .ac-preview-grid,
+.accomplishments-page .ac-popup-form .ac-photo-grid,
+.accomplishments-page .ac-attachment-content .ac-photo-grid {
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,155px));
+  gap:12px;justify-content:start;align-content:start;
+  max-width:100%;margin:10px 0 16px;
+}
+.accomplishments-page .ac-preview-grid figure,
+.accomplishments-page .ac-popup-form .ac-photo-grid figure {width:100%;max-width:155px;position:relative;}
+.accomplishments-page .ac-preview-grid img,
+.accomplishments-page .ac-popup-form .ac-photo-grid img {display:block;width:100%;height:155px;object-fit:cover;}
+.accomplishments-page .ac-selection-preview {display:block;width:100%;min-width:0;box-sizing:border-box;}
+.accomplishments-page .ac-inline-selections {display:block;width:100%;}
+@media(max-width:600px){
+  .accomplishments-page .ac-optional-fields {grid-template-columns:1fr;}
+  .accomplishments-page .ac-inline-add-row {gap:8px;}
+  .accomplishments-page .ac-preview-grid,
+  .accomplishments-page .ac-popup-form .ac-photo-grid {grid-template-columns:repeat(auto-fill,minmax(105px,140px));}
+}
+
+/* Reuse Documents: compact branch next to Add Photos, no duplicate upload */
+.ac-document-choice{display:inline-flex;position:relative;align-items:center;flex-direction:column;align-self:start}
+.ac-document-choice-menu{position:absolute;z-index:60;top:calc(100% + 4px);left:0;min-width:235px;background:#fff;padding:10px;border:1px solid #cedbd1;border-radius:8px;box-shadow:0 8px 22px #0002;display:flex;flex-direction:column;gap:7px}
+.ac-document-choice-menu .ac-attachment-picker,.ac-document-choice-menu .ac-inline-detail-toggle{width:100%;justify-content:flex-start;box-sizing:border-box;text-align:left;white-space:normal}
+.ac-linked-list small,.ac-pending-links small,.ac-library-row small{display:block;color:#657589;font-size:12px;margin-top:3px}
+.ac-linked-list>div,.ac-pending-links>div{display:flex;align-items:center;gap:12px;justify-content:space-between;border-bottom:1px solid #e5e9e7;padding:9px 0}
+.ac-linked-list span{flex:1;min-width:0}.ac-link-view{color:#166534;font-weight:600}
+.ac-library-overlay{z-index:3100!important;top:74px!important;display:flex;align-items:center;justify-content:center}
+.ac-library-dialog{width:min(640px,100%);max-height:min(70vh,700px);background:#fff;border-radius:10px;box-shadow:0 15px 40px #0003;display:flex;flex-direction:column;padding:20px;gap:15px;overflow:hidden}
+.ac-library-head{display:flex;justify-content:space-between;gap:10px;align-items:start}.ac-library-head h3{margin:0}.ac-library-head p{font-size:13px;color:#64748b;margin:5px 0 0}
+.ac-library-search{width:100%;box-sizing:border-box;border:1px solid #cbd5d1;border-radius:6px;padding:12px;font:inherit}
+.ac-library-items{overflow-y:auto;min-height:80px}.ac-library-row{display:flex;align-items:center;gap:12px;padding:12px;border-bottom:1px solid #e7ece8;cursor:pointer}.ac-library-row input{width:18px;height:18px;flex-shrink:0}.ac-library-row span{flex:1;min-width:0;overflow-wrap:anywhere}
+.ac-library-actions{display:flex;align-items:center;gap:10px;justify-content:flex-end;border-top:1px solid #e1e7e1;padding-top:14px}.ac-library-actions span{margin-right:auto;color:#64748b}
+@media(max-width:650px){.ac-library-overlay{top:64px!important}.ac-library-dialog{padding:14px;max-height:75dvh}.ac-document-choice-menu{left:auto;right:0;min-width:210px}}
+
+
+/* Unified document-source menu for Activities and Tangible Projects. */
+.accomplishments-page .ac-document-choice-menu {
+  min-width: 280px;
+  padding: 7px;
+  gap: 4px;
+  border: 1px solid #cbded0;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 10px 25px rgba(0,0,0,.12);
+}
+.accomplishments-page .ac-document-choice-menu .ac-document-choice-option {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 3px;
+  position: relative;
+  width: 100%;
+  min-height: 58px;
+  box-sizing: border-box;
+  padding: 9px 12px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: #fff;
+  color: #166534;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color .15s, border-color .15s;
+}
+.accomplishments-page .ac-document-choice-menu .ac-document-choice-option:hover,
+.accomplishments-page .ac-document-choice-menu .ac-document-choice-option:focus-within,
+.accomplishments-page .ac-document-choice-menu .ac-document-choice-option:focus-visible {
+  border-color: #bddbc5;
+  background: #eef7f0;
+  outline-offset: 2px;
+}
+.accomplishments-page .ac-document-choice-title {
+  font-size: 14px;
+  line-height: 1.35;
+  font-weight: 700;
+}
+.accomplishments-page .ac-document-choice-caption {
+  font-size: 12px;
+  line-height: 1.3;
+  font-weight: 400;
+  color: #64748b;
+}
+.accomplishments-page .ac-document-choice-option input[type="file"] {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+.accomplishments-page .ac-document-choice-option:has(input:disabled),
+.accomplishments-page .ac-document-choice-option:disabled {opacity:.5;cursor:not-allowed}
+@media(max-width:650px){.accomplishments-page .ac-document-choice-menu{min-width:245px}}
+@media(prefers-reduced-motion:reduce){.accomplishments-page .ac-document-choice-option{transition:none}}
+
+
+/* FIX: DocumentChoice wraps its trigger inside .ac-document-choice.
+   Prior rules target only direct children of .ac-inline-add-row. */
+.accomplishments-page .ac-inline-add-row > .ac-document-choice {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  flex: 0 0 auto;
+  width: auto;
+  margin: 0;
+}
+.accomplishments-page .ac-inline-add-row > .ac-document-choice > .ac-inline-detail-toggle {
+  appearance: none;
+  -webkit-appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-sizing: border-box;
+  height: 46px;
+  min-height: 46px;
+  padding: 9px 14px;
+  margin: 0;
+  border: 1px solid #cbded0;
+  border-radius: 6px;
+  background: #fff;
+  color: #166534;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 650;
+  line-height: 1.4;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color .15s ease, border-color .15s ease;
+}
+.accomplishments-page .ac-inline-add-row > .ac-document-choice > .ac-inline-detail-toggle:hover,
+.accomplishments-page .ac-inline-add-row > .ac-document-choice > .ac-inline-detail-toggle[aria-expanded="true"] {
+  background: #edf7ee;
+  border-color: #a6cbb2;
+}
+.accomplishments-page .ac-inline-add-row > .ac-document-choice > .ac-inline-detail-toggle:focus-visible {
+  outline: 2px solid #166534;
+  outline-offset: 2px;
+}
+.accomplishments-page .ac-inline-add-row > .ac-document-choice > .ac-inline-detail-toggle:disabled {
+  opacity: .55;
+  cursor: not-allowed;
+}
+
+/* Borderless, accessible actions for the Activities and Tangible Projects tables. */
+.accomplishments-page .ac-row-actions {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 13px;
+}
+.accomplishments-page .ac-table-icon {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 28px;
+  width: 28px;
+  height: 30px;
+  padding: 3px;
+  margin: 0;
+  border: 0 !important;
+  border-radius: 0;
+  background: transparent !important;
+  box-shadow: none !important;
+  cursor: pointer;
+  line-height: 1;
+  transition: color .15s ease, opacity .15s ease;
+}
+.accomplishments-page .ac-table-icon svg { display: block; width: 20px; height: 20px; }
+.accomplishments-page .ac-table-icon-view,
+.accomplishments-page .ac-table-icon-edit { color: #166534 !important; }
+.accomplishments-page .ac-table-icon-delete { color: #dc2626 !important; }
+.accomplishments-page .ac-table-icon:hover:not(:disabled) { opacity: .65; }
+.accomplishments-page .ac-table-icon:focus-visible { outline: 2px solid #166534; outline-offset: 3px; border-radius: 3px; }
+.accomplishments-page .ac-table-icon:disabled { opacity: .4; cursor: not-allowed; }
+@media (prefers-reduced-motion: reduce) { .accomplishments-page .ac-table-icon { transition: none; } }
+
+
+/* Borderless icon actions — report list and report back only */
+.accomplishments-page .ac-delete,
+.accomplishments-page .ac-back {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 42px;
+  height: 42px;
+  min-width: 42px;
+  min-height: 42px;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  box-shadow: none;
+  cursor: pointer;
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+.accomplishments-page .ac-delete { color: #dc2626; }
+.accomplishments-page .ac-back { color: #166534; }
+.accomplishments-page .ac-delete:hover:not(:disabled) { background: #fef2f2; }
+.accomplishments-page .ac-back:hover:not(:disabled) { background: #e8f5e9; }
+.accomplishments-page .ac-delete svg,
+.accomplishments-page .ac-back svg { display: block; width: 22px; height: 22px; }
+.accomplishments-page .ac-delete:focus-visible,
+.accomplishments-page .ac-back:focus-visible { outline: 2px solid #166534; outline-offset: 2px; }
+.accomplishments-page .ac-delete:disabled { opacity: 0.45; cursor: not-allowed; }
+@media (prefers-reduced-motion: reduce) {
+  .accomplishments-page .ac-delete,
+  .accomplishments-page .ac-back { transition: none; }
+}
+
+.ac-osas-review-comments{margin:22px 0;padding:14px;border:1px solid #d5e5da;border-radius:7px}.ac-osas-review-comment{padding:12px;background:#f5f8f6;border-radius:6px;margin-top:10px}.ac-osas-review-comment small{color:#657b8d}.ac-osas-review-comment p{white-space:pre-wrap;margin:8px 0 0}
+
+.ac-review-audit{font-size:12px;line-height:1.4;margin:4px 0;color:#718094}
+
+/* Shared compact comment styling for Organization and OSAS AR views. */
+.osas-ar .ac-osas-review-comments{padding:10px 13px;margin:14px 0;border-color:#dce6df}
+.osas-ar .ac-osas-review-comment{padding:8px 10px;margin:7px 0;font-size:13px}
+.osas-ar .ac-osas-review-comment p{margin:3px 0 0}
+.osas-ar .ac-osas-review-comment small{font-size:11px}
+.osas-ar-comment-toggle{border:0;background:transparent;color:#145f31;display:inline-flex;align-items:center;gap:8px;cursor:pointer;padding:3px 0;font:inherit;font-size:14px}
+.osas-ar-compact-history{display:flex;flex-wrap:wrap;gap:6px 14px;color:#748391;font-size:11px;margin:8px 0}
+.osas-ar .osas-ar-comments textarea{margin-top:9px;padding:8px 10px;font-size:13px;min-height:60px}
+.osas-ar .osas-ar-comments .osas-ar-actions{margin:5px 0}
+.osas-ar .osas-ar-link{display:inline-flex;align-items:center;gap:5px}
+.osas-ar .ac-modal-overlay{z-index:1100}
+.osas-ar .ac-modal{width:min(900px,100%);max-height:85vh}
+.osas-ar .ac-modal-header{font-size:17px}
+.osas-ar .ac-modal .ac-detail-title{text-align:center;margin:25px 0 30px}
+/* Compact comments also shared by Organization report details. */
+.ac-osas-review-comments{padding:10px 12px;margin:12px 0;border:1px solid #dce6df;border-radius:7px}
+.ac-osas-review-comments h3{font-size:15px;margin:0 0 7px}
+.ac-osas-review-comments .ac-review-audit{font-size:11px;line-height:1.4;margin:3px 0}
+.ac-osas-review-comment{padding:8px 10px;font-size:13px;margin:6px 0}
+.ac-osas-review-comment small{font-size:11px}
+.ac-osas-review-comment p{margin:4px 0 0}
+
+/* Shared AR review comments: same collapsible layout in Organization and OSAS */
+.ac-ar-comments-toggle,.osas-ar-comment-toggle{display:flex;align-items:center;gap:9px;width:100%;padding:9px 11px;border:1px solid #d8e5dc;border-radius:7px;background:#fff;color:#136532;text-align:left;font-size:14px;font-weight:600;cursor:pointer;text-decoration:none;}
+.ac-ar-comments-toggle:hover,.osas-ar-comment-toggle:hover{background:#f7faf8;}
+.ac-ar-comments-count{font-size:12px;font-weight:400;color:#4b6676;}
+.ac-ar-comments-body{padding:9px 2px 2px;}
+.ac-osas-review-comments{padding:0!important;border:0!important;margin:14px 0!important;}
+.ac-osas-review-comment{padding:8px 10px!important;font-size:13px!important;margin:6px 0!important;}
+.ac-osas-review-comment p{margin:3px 0 0!important;}
+.ac-osas-review-comment small,.ac-osas-review-comments .ac-review-audit{font-size:11px!important;color:#62788b;line-height:1.4;}
+.osas-ar-detail-head{display:flex;align-items:center;gap:14px;margin:14px 0 9px;}
+.osas-ar-detail-head .ac-back{flex:none;display:inline-flex;align-items:center;justify-content:center;min-width:36px;min-height:36px;color:#14743b;background:transparent;border:0;text-decoration:none;cursor:pointer;}
+.osas-ar-detail-head .osas-ar-detail-title h2{margin:0;}
+
+/* Shared AR point totals: organization and OSAS use this same class. */
+.ac-ar-point-totals {display:flex;gap:12px;flex-wrap:wrap;margin:12px 0 18px;}
+.ac-ar-point-totals > div {border:1px solid #dce6dd;border-radius:7px;padding:10px 16px;min-width:175px;display:flex;flex-direction:column;gap:4px;background:#f7faf8;}
+.ac-ar-point-totals span {font-size:12px;color:#526b5c;}
+.ac-ar-point-totals strong {font-size:20px;color:#11642f;}
+
+/* Shared AR summary: five metrics in the same row (Organization + OSAS). */
+.ac-summary-grid {grid-template-columns:repeat(4,minmax(0,1fr));}
+.ac-summary-grid>div{min-width:0;}
+.ac-summary-grid strong{font-size:14px;}
+.ac-summary-grid p{font-size:20px;}
+@media(max-width:1050px){.ac-summary-grid{grid-template-columns:repeat(3,minmax(0,1fr));}}
+@media(max-width:650px){.ac-summary-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
+/* Reuse existing OSAS organization-photo endpoint; no new avatar component. */
+.osas-ar-org-cell{display:flex;align-items:center;gap:12px;min-width:190px;}
+.osas-ar-org-avatar{width:42px;height:42px;flex:0 0 42px;border-radius:50%;overflow:hidden;background:#0e5426;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;}
+.osas-ar-org-avatar img{width:100%;height:100%;object-fit:cover;display:block;}

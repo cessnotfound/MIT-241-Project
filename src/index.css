@@ -1,0 +1,702 @@
+/* =========================================
+   STUDENT ORGANIZATION PORTAL - GLOBAL STYLES
+========================================= */
+:root {
+  font-family: Arial, Helvetica, sans-serif;
+  color: #1f2937;
+  background: #f8faf8;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+* { box-sizing: border-box; }
+html, body, #root { width: 100%; min-height: 100vh; margin: 0; padding: 0; }
+body { display: block; min-width: 320px; }
+#root { max-width: none; text-align: left; }
+button, input, textarea, select { font: inherit; }
+button { cursor: pointer; }
+a { color: inherit; }
+
+/* =========================================
+   MMSU-INSPIRED SHARED LAYOUT
+   Banner is a gradient placeholder; replace with campus photo later.
+========================================= */
+.sas-layout-loading { min-height:100vh; display:grid; place-items:center; color:#475569; }
+.organization-layout { min-height:100vh; width:100%; display:block; background:#ffffff; }
+.organization-banner { height:225px; background:linear-gradient(115deg, rgba(6,40,40,.80),rgba(15,65,62,.45)),linear-gradient(135deg,#466c73,#a6afb1); color:#fff; }
+.organization-banner-inner { width:min(100%,1240px); height:100%; margin:auto; padding:20px 26px 24px; display:flex; align-items:flex-end; gap:32px; }
+.organization-banner-spacer { flex:0 0 245px; }
+.organization-banner-identity { min-width:0; padding-bottom:2px; }
+.organization-banner-identity h1 { font-size:25px; font-weight:700; color:#fff; margin:0 0 5px; overflow-wrap:anywhere; }
+.organization-banner-identity p { font-size:16px; font-weight:600; margin:0; color:#fff; }
+.organization-body { display:flex; gap:32px; align-items:flex-start; width:min(100%,1240px); margin:0 auto; padding:0 26px 45px; }
+.organization-sidebar { position:relative; flex:0 0 245px; width:245px; min-width:0; padding:0 0 25px; display:flex; flex-direction:column; background:transparent; color:#126126; }
+.organization-sidebar-photo { height:215px; margin-top:-95px; display:flex; align-items:flex-start; justify-content:center; position:relative; z-index:2; }
+.organization-sidebar-logo, .organization-sidebar-logo-placeholder { display:flex; align-items:center; justify-content:center; width:188px; height:188px; border-radius:50%; border:4px solid #d9b83d; background:#eef3ef; object-fit:cover; box-shadow:0 0 0 4px white; color:#166534; font-size:28px; font-weight:700; }
+.organization-sidebar-nav { display:flex; flex-direction:column; width:100%; }
+.sidebar-link { position:relative; display:block; width:100%; padding:12px 12px; border-radius:0; text-align:left; text-decoration:none; color:#126126; font-size:14px; font-weight:700; }
+.sidebar-link:hover { background:#f1f3f1; }
+.sidebar-link.active { background:#e7e7e7; color:#07551c; }
+.sidebar-link.active::after { content:''; position:absolute; right:0; top:0; bottom:0; width:3px; background:#07551c; }
+.sidebar-section { margin-top:12px; }
+.sidebar-section p { margin:0; padding:12px; font-size:11px; letter-spacing:.05em; text-transform:uppercase; color:#778c7c; }
+.sidebar-link.disabled { color:#779481; cursor:default; font-weight:500; }
+.sidebar-link.disabled:hover { background:transparent; }
+.logout-button { align-self:flex-start; margin:22px 12px 0; padding:10px 18px; border:0; border-radius:4px; background:#126b2e; color:#fff; font-size:13px; font-weight:600; }
+.logout-button:hover:not(:disabled) { background:#07551c; }
+.logout-button:disabled { opacity:.6; cursor:wait; }
+.organization-content { flex:1; min-width:0; min-height:calc(100vh - 225px); padding:28px 0 50px; background:#fff; color:#1f2937; }
+.organization-content h1, .organization-content h2, .organization-content h3 { color:#1f2937; }
+
+/* =========================================
+   DASHBOARD
+========================================= */
+.dashboard-page { width: 100%; max-width: 1200px; }
+.dashboard-page h1 { font-size: 30px; margin: 0 0 28px; }
+.organization-profile-header { display: flex; align-items: center; gap: 24px; margin-bottom: 36px; }
+.organization-profile-header h2 { font-size: 24px; margin: 0 0 8px; }
+.organization-profile-header p { margin: 0 0 12px; color: #64748b; }
+.profile-photo-container { flex-shrink: 0; }
+/* The large logo is already displayed in the shared banner. Hide the duplicate only on Dashboard. */
+.dashboard-page .profile-photo-container { display: none; }
+.organization-profile-photo, .profile-photo-placeholder {
+  width: 135px;
+  height: 135px;
+  border-radius: 50%;
+  border: 3px solid #d9e7dc;
+}
+.organization-profile-photo { object-fit: cover; background: #e5eee6; }
+.profile-photo-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e5eee6;
+  color: #64748b;
+  font-size: 14px;
+}
+.organization-info-section, .organization-description-section { margin-bottom: 30px; }
+.organization-info-section h3, .organization-description-section h3 {
+  font-size: 19px;
+  padding-bottom: 12px;
+  margin-bottom: 18px;
+  border-bottom: 1px solid #d1d5db;
+}
+.organization-info-row { display: flex; gap: 10px; flex-wrap: wrap; padding: 7px 0; font-size: 15px; }
+.organization-info-row strong { color: #1f2937; }
+.organization-description-section p { line-height: 1.7; color: #374151; }
+.dashboard-profile-link {
+  display: inline-block;
+  padding: 11px 16px;
+  background: #167333;
+  color: white;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+}
+.dashboard-profile-link:hover { background: #07551c; }
+
+/* =========================================
+   ORGANIZATION PROFILE
+========================================= */
+.org-profile-page { width: 100%; max-width: 1100px; margin: 0; padding: 0; }
+.org-profile-page > h1 { font-size: 30px; font-weight: 700; margin: 0 0 24px; }
+.org-profile-card {
+  width: 100%;
+  padding: 30px 36px;
+  background: #fff;
+  border: 1px solid #e0e5e0;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.035);
+}
+.org-profile-header { display: flex; align-items: center; gap: 26px; padding-bottom: 30px; border-bottom: 1px solid #e5e7eb; }
+.org-profile-avatar-area { display: flex; flex-direction: column; align-items: center; gap: 10px; flex-shrink: 0; }
+.org-profile-avatar, .org-profile-avatar-placeholder { width: 116px; height: 116px; border: 3px solid #d9e7dc; border-radius: 50%; }
+.org-profile-avatar { object-fit: cover; background: #edf3ed; }
+.org-profile-avatar-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e5eee6;
+  color: #64748b;
+  font-size: 13px;
+}
+.org-photo-button {
+  display: inline-block;
+  padding: 9px 15px;
+  background: #167333;
+  color: white;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+}
+.org-photo-button:hover { background: #07551c; }
+.org-profile-identity { min-width: 0; }
+.org-profile-identity h2 { font-size: 24px; margin: 0 0 8px; overflow-wrap: anywhere; }
+.org-profile-identity p { color: #64748b; font-size: 14px; margin: 0 0 12px; }
+.recognition-badge {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: 6px 11px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+.recognition-badge.active { color: #166534; background: #dcfce7; }
+.recognition-badge.inactive { color: #92400e; background: #fef3c7; }
+.org-profile-section { padding: 25px 0; border-bottom: 1px solid #e5e7eb; }
+.org-profile-section:last-of-type { border-bottom: none; }
+.org-profile-section h3 { font-size: 18px; font-weight: 700; margin: 0 0 18px; }
+.org-profile-section p { font-size: 14px; line-height: 1.7; color: #475569; margin: 12px 0 18px; }
+.org-profile-detail {
+  display: grid;
+  grid-template-columns: 220px minmax(0,1fr);
+  align-items: center;
+  gap: 20px;
+  padding: 13px 0;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 14px;
+}
+.org-profile-detail:last-of-type { border-bottom: none; }
+.org-profile-detail strong { color: #334155; font-weight: 600; }
+.org-profile-detail > span { color: #334155; overflow-wrap: anywhere; }
+.org-profile-detail > .recognition-badge { color: #166534; }
+.org-profile-detail > .recognition-badge.inactive { color: #92400e; }
+.org-profile-section button {
+  display: inline-block;
+  padding: 11px 17px;
+  border: none;
+  border-radius: 6px;
+  background: #167333;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+}
+.org-profile-section button:hover { background: #07551c; }
+.org-profile-section button:disabled { opacity: 0.6; cursor: wait; }
+.org-profile-section .org-button-secondary { background: #e5e7eb; color: #334155; }
+.org-profile-section .org-button-secondary:hover { background: #d1d5db; }
+.org-description-editor textarea {
+  width: 100%;
+  max-width: 800px;
+  padding: 14px;
+  min-height: 140px;
+  resize: vertical;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background: #fff;
+  color: #1f2937;
+  font-size: 14px;
+  line-height: 1.6;
+}
+.org-description-editor textarea:focus { outline: 2px solid #167333; outline-offset: 1px; }
+.org-profile-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 14px; }
+.org-password-form { display: flex; flex-direction: column; gap: 10px; max-width: 420px; margin-top: 20px; }
+.org-password-form label { font-size: 13px; font-weight: 600; color: #334155; }
+.org-password-form input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 8px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background: #fff;
+  color: #1f2937;
+}
+.org-password-form input:focus { outline: 2px solid #167333; outline-offset: 1px; }
+.org-profile-message { margin-top: 20px; font-size: 14px; font-weight: 600; color: #166534; }
+
+/* =========================================
+   LOGIN PAGE
+========================================= */
+.login-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100%;
+  padding: 24px;
+  background: #f3f6f3;
+}
+.login-card {
+  width: 100%;
+  max-width: 420px;
+  padding: 36px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px #00000015;
+}
+.login-card h1 { font-size: 25px; }
+.login-card label { display: block; margin-bottom: 6px; font-weight: 600; }
+.login-card input { width: 100%; padding: 12px; margin-bottom: 18px; border: 1px solid #d1d5db; border-radius: 6px; }
+.login-card button { width: 100%; padding: 12px; background: #07551c; color: white; border: none; border-radius: 6px; }
+
+/* =========================================
+   ORGANIZATIONAL STRUCTURE - REFINED UI
+========================================= */
+.structure-page { width: 100%; max-width: 1100px; }
+.structure-page-header { margin-bottom: 26px; }
+.structure-page-header h1 { margin: 0 0 7px; font-size: 30px; font-weight: 700; color: #1f2937; }
+.structure-page-header p { margin: 0; color: #64748b; font-size: 15px; line-height: 1.5; }
+
+.structure-panel {
+  padding: 26px 30px;
+  margin-bottom: 22px;
+  background: #fff;
+  border: 1px solid #e0e7e3;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.025);
+}
+.structure-panel-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+.structure-panel-heading h2 { margin: 0; color: #1f2937; font-size: 19px; font-weight: 700; }
+.structure-panel button {
+  min-height: 38px;
+  padding: 9px 15px;
+  border: 0;
+  border-radius: 7px;
+  background: #167333;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color .15s ease;
+}
+.structure-panel button:hover:not(:disabled) { background: #07551c; }
+.structure-panel button:focus-visible { outline: 3px solid rgba(22,115,51,.25); outline-offset: 2px; }
+.structure-panel button:disabled { opacity: .55; cursor: not-allowed; }
+
+.structure-entry-form {
+  padding: 22px 24px;
+  margin: 6px 0 22px;
+  background: #f9fbf9;
+  border: 1px solid #e1e9e3;
+  border-radius: 10px;
+}
+.structure-entry-form h3 { margin: 0 0 18px; font-size: 16px; font-weight: 700; color: #1f2937; }
+.structure-form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.structure-form-grid label { display: flex; flex-direction: column; gap: 8px; color: #334155; font-size: 14px; font-weight: 600; }
+.structure-form-grid input {
+  width: 100%;
+  min-width: 0;
+  padding: 12px 14px;
+  border: 1px solid #cbd5d0;
+  border-radius: 8px;
+  background: #fff;
+  color: #1f2937;
+  font-size: 14px;
+}
+.structure-form-grid input::placeholder { color: #8896a7; font-weight: 400; }
+.structure-form-grid input:focus { outline: 3px solid rgba(22,115,51,.14); border-color: #167333; }
+.structure-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+.structure-panel .structure-cancel-button { background: #e9edeb; color: #334155; }
+.structure-panel .structure-cancel-button:hover:not(:disabled) { background: #dce4df; }
+
+.structure-empty { margin: 0; padding: 8px 0 4px; color: #64748b; font-size: 14px; line-height: 1.6; }
+.structure-table-wrapper { width: 100%; overflow-x: auto; }
+.structure-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
+.structure-table th, .structure-table td { padding: 14px 16px; border-bottom: 1px solid #e8edea; }
+.structure-table th { background: #f5f8f6; color: #475569; font-size: 13px; font-weight: 700; }
+.structure-table th:first-child { border-top-left-radius: 8px; }
+.structure-table th:last-child { border-top-right-radius: 8px; }
+.structure-table td { color: #334155; vertical-align: middle; }
+.structure-table tbody tr:hover td { background: #fbfdfb; }
+.structure-row-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+.structure-row-actions button { padding: 8px 13px; min-height: 35px; }
+.structure-panel .structure-remove-button { background: #b42318; }
+.structure-panel .structure-remove-button:hover:not(:disabled) { background: #912018; }
+.structure-error, .structure-success { padding: 12px 14px; margin-bottom: 16px; border-radius: 8px; font-size: 14px; }
+.structure-error { color: #b42318; background: #fef3f2; border: 1px solid #fecaca; }
+.structure-success { color: #166534; background: #ecfdf3; border: 1px solid #bbf7d0; }
+
+/* =========================================
+   LEGACY RENEWAL STYLES
+   Latest renewal design is in styles/ApplicationRenewal.css
+========================================= */
+.renewal-page { width: 100%; max-width: 1100px; }
+.renewal-page h1 { font-size: 30px; margin: 0 0 24px; }
+.renewal-summary { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; padding: 24px; margin-bottom: 22px; border: 1px solid #dbe5dd; border-radius: 10px; background: #fff; }
+.renewal-label { display: block; margin-bottom: 9px; color: #64748b; font-size: 13px; }
+.renewal-summary h2 { margin: 0; font-size: 21px; color: #166534; }
+.renewal-status, .renewal-form-status { display: inline-block; padding: 7px 12px; border-radius: 20px; background: #e5e7eb; color: #334155; font-size: 12px; font-weight: 700; }
+.renewal-status-pending-approval { background: #fef3c7; color: #92400e; }
+.renewal-status-approved { background: #dcfce7; color: #166534; }
+.renewal-status-revision-required { background: #fee2e2; color: #991b1b; }
+.renewal-notice { padding: 16px 20px; margin-bottom: 22px; border: 1px solid #cbd5e1; border-radius: 8px; background: #f8fafc; color: #334155; line-height: 1.6; }
+.renewal-progress { display: flex; align-items: center; justify-content: space-between; gap: 15px; flex-wrap: wrap; padding: 18px 0; margin-bottom: 10px; }
+.renewal-progress p { margin: 6px 0 0; color: #64748b; font-size: 14px; }
+.renewal-forms { display: grid; gap: 18px; }
+.renewal-form-card { padding: 24px; background: #fff; border: 1px solid #dbe5dd; border-radius: 10px; }
+.renewal-form-heading, .renewal-file-row { display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap; }
+.renewal-form-heading { padding-bottom: 18px; margin-bottom: 18px; border-bottom: 1px solid #e5e7eb; }
+.renewal-form-heading h3 { margin: 0; font-size: 19px; }
+.renewal-file-row strong { font-size: 14px; }
+.renewal-file-row p { margin: 8px 0; color: #64748b; font-size: 14px; overflow-wrap: anywhere; }
+.renewal-upload-button, .renewal-submit-section button { display: inline-block; margin-top: 12px; padding: 11px 17px; background: #167333; color: #fff; border: none; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; }
+.renewal-upload-button:hover, .renewal-submit-section button:hover:not(:disabled) { background: #07551c; }
+.renewal-view-link { color: #166534; font-size: 14px; font-weight: 600; }
+.renewal-comment { margin-top: 22px; padding: 15px 18px; border-radius: 7px; background: #f5f7f5; }
+.renewal-comment strong { font-size: 13px; color: #334155; }
+.renewal-comment p { margin: 8px 0 0; color: #64748b; font-size: 14px; line-height: 1.6; white-space: pre-wrap; }
+.renewal-submit-section { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; padding: 25px; margin-top: 24px; background: #fff; border: 1px solid #dbe5dd; border-radius: 10px; }
+.renewal-submit-section h2 { margin: 0 0 8px; font-size: 19px; }
+.renewal-submit-section p { margin: 0; color: #64748b; font-size: 14px; line-height: 1.6; }
+.renewal-submit-section button:disabled { background: #94a3b8; cursor: not-allowed; }
+.renewal-submitted-label { color: #166534; font-size: 14px; font-weight: 700; }
+.renewal-error, .renewal-success { padding: 14px; margin-top: 18px; border-radius: 6px; font-size: 14px; }
+.renewal-error { background: #fef2f2; color: #b91c1c; }
+.renewal-success { background: #dcfce7; color: #166534; }
+
+
+/* =========================================
+   RESPONSIVE DESIGN
+========================================= */
+@media (max-width:900px) {
+ .organization-banner-spacer { flex-basis:200px; }
+ .organization-sidebar { flex-basis:200px; width:200px; }
+ .organization-body { gap:20px; }
+ .organization-sidebar-logo,.organization-sidebar-logo-placeholder { width:160px; height:160px; }
+ .organization-sidebar-photo { height:185px; margin-top:-80px; }
+}
+@media (max-width:768px) {
+ .organization-banner { height:auto; min-height:180px; }
+ .organization-banner-inner { min-height:180px; padding:24px 20px; align-items:center; }
+ .organization-banner-spacer { display:none; }
+ .organization-banner-identity h1 { font-size:22px; }
+ .organization-body { flex-direction:column; gap:0; padding:0 20px 30px; }
+ .organization-sidebar { flex:none; width:100%; padding-bottom:10px; }
+ .organization-sidebar-photo { justify-content:flex-start; height:auto; margin-top:-38px; margin-bottom:16px; }
+ .organization-sidebar-logo,.organization-sidebar-logo-placeholder { width:95px; height:95px; font-size:17px; }
+ .organization-sidebar-nav { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:3px; }
+ .sidebar-section { grid-column:1/-1; margin-top:10px; }
+ .sidebar-section p { padding-left:0; }
+ .logout-button { margin:14px 0; }
+ .organization-content { width:100%; min-height:0; padding:20px 0 30px; }
+ .org-profile-card { padding:20px; }
+ .org-profile-header,.organization-profile-header { flex-direction:column; align-items:flex-start; }
+ .org-profile-detail { grid-template-columns:1fr; gap:5px; }
+}
+@media (max-width:650px) {
+ .structure-page-header h1 { font-size:24px; }
+ .structure-panel { padding:18px; }
+ .structure-panel-heading { flex-wrap:wrap; }
+ .structure-panel-heading button { width:100%; }
+ .structure-form-grid { grid-template-columns:1fr; }
+ .structure-entry-form { padding:16px; }
+ .structure-actions { flex-direction:column; }
+ .structure-actions button { width:100%; }
+ .structure-row-actions { flex-direction:column; align-items:stretch; }
+ .renewal-summary,.renewal-form-card,.renewal-submit-section { padding:18px; }
+}
+
+/* =========================================
+   DASHBOARD-MATCHED PROFILE & STRUCTURE
+   Clean sections, dividers, no large cards
+========================================= */
+
+/* Organization Profile: no enclosing card background or outline */
+.organization-body .org-profile-page .org-profile-card,
+.org-profile-page .org-profile-card {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.org-profile-page > h1 {
+  margin: 0 0 28px;
+  font-size: 30px;
+}
+
+.org-profile-page .org-profile-section {
+  padding: 0 0 26px;
+  margin: 0 0 26px;
+  border: 0;
+}
+
+.org-profile-page .org-profile-section:last-of-type {
+  margin-bottom: 0;
+}
+
+.org-profile-page .org-profile-section > h3,
+.org-profile-page .org-section-heading {
+  padding: 0 0 13px;
+  margin: 0 0 18px;
+  border-bottom: 1px solid #d1d5db;
+}
+
+.org-profile-page .org-profile-section > h3 {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.org-profile-page .org-profile-detail {
+  padding: 10px 0;
+  border: 0;
+  grid-template-columns: 220px minmax(0, 1fr);
+  gap: 18px;
+}
+
+.org-profile-page .org-profile-detail strong,
+.org-profile-page .org-profile-detail > span {
+  font-size: 15px;
+}
+
+.org-profile-page .org-profile-section p {
+  margin: 8px 0 16px;
+  font-size: 15px;
+}
+
+/* Keep any existing account edit / password forms usable. */
+.org-profile-page .org-password-form,
+.org-profile-page .org-description-editor {
+  max-width: 760px;
+}
+
+/* Organizational Structure: remove boxed panels and nested form cards */
+.structure-page .structure-panel {
+  padding: 0 0 26px;
+  margin: 0 0 27px;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.structure-page .structure-panel-heading {
+  min-height: 42px;
+  padding: 0 0 13px;
+  margin: 0 0 17px;
+  border-bottom: 1px solid #d1d5db;
+}
+
+.structure-page .structure-panel-heading h2 {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.structure-page .structure-entry-form {
+  padding: 0 0 20px;
+  margin: 4px 0 20px;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid #e5e7eb;
+  border-radius: 0;
+}
+
+.structure-page .structure-entry-form h3 {
+  font-size: 16px;
+  margin: 0 0 18px;
+}
+
+.structure-page .structure-empty {
+  padding: 8px 0;
+  margin: 0;
+  background: transparent;
+  border: 0;
+}
+
+/* Lightly ruled tables, no shaded table header blocks */
+.structure-page .structure-table {
+  border-collapse: collapse;
+}
+
+.structure-page .structure-table th {
+  background: transparent;
+  color: #334155;
+  padding: 13px 12px;
+  border-bottom: 1px solid #d1d5db;
+  border-radius: 0;
+}
+
+.structure-page .structure-table td {
+  padding: 14px 12px;
+  background: transparent;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.structure-page .structure-table tbody tr:hover td {
+  background: #f8faf8;
+}
+
+@media (max-width: 650px) {
+  .org-profile-page .org-profile-detail {
+    grid-template-columns: 1fr;
+    gap: 5px;
+  }
+
+  .structure-page .structure-panel-heading {
+    align-items: flex-start;
+    gap: 12px;
+  }
+}
+
+
+/* ==========================================
+   ORGANIZATION OVERVIEW
+   CENTERED ORGANIZATION INFORMATION
+========================================== */
+
+.dashboard-page {
+  width: 100%;
+  max-width: 1200px;
+}
+
+.dashboard-centered-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin: 25px auto 30px;
+  gap: 14px;
+}
+
+.dashboard-centered-info-row {
+  display: block;
+  width: 100%;
+  text-align: center;
+  font-size: 15px;
+  line-height: 1.6;
+  color: #1f2937;
+}
+
+.dashboard-centered-info-row strong {
+  display: inline;
+  font-weight: 700;
+  text-align: center;
+}
+
+.dashboard-centered-info-row span {
+  display: inline;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 650px) {
+  .dashboard-centered-info {
+    margin: 20px auto;
+    gap: 12px;
+  }
+
+  .dashboard-centered-info-row {
+    font-size: 14px;
+  }
+}
+
+
+/* ==========================================
+   ORGANIZATIONAL STRUCTURE TABLE ALIGNMENT
+========================================== */
+
+/* Both adviser and officer tables */
+.structure-page table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+/* Consistent table spacing */
+.structure-page table th,
+.structure-page table td {
+  padding: 18px 16px;
+  vertical-align: middle;
+}
+
+/* First column: name */
+.structure-page table th:first-child,
+.structure-page table td:first-child {
+  width: 40%;
+  text-align: left;
+}
+
+/* Second column: department / position */
+.structure-page table th:nth-child(2),
+.structure-page table td:nth-child(2) {
+  width: 35%;
+  text-align: left;
+}
+
+/* Third column: actions aligned right */
+.structure-page table th:last-child,
+.structure-page table td:last-child {
+  width: 25%;
+  text-align: right;
+}
+
+/* Keep Edit and Remove together */
+.structure-page table td:last-child {
+  white-space: nowrap;
+}
+
+/* Spacing between buttons */
+.structure-page table td:last-child button {
+  margin-left: 8px;
+}
+
+/* Responsive layout */
+@media (max-width: 650px) {
+  .structure-page table {
+    table-layout: auto;
+  }
+
+  .structure-page table th,
+  .structure-page table td {
+    padding: 12px 8px;
+  }
+
+  .structure-page table td:last-child {
+    white-space: normal;
+  }
+}
+
+
+/* ==========================================
+   ORGANIZATIONAL STRUCTURE
+   ALIGN ACTION BUTTONS TO THE RIGHT
+========================================== */
+
+.structure-page table th:last-child,
+.structure-page table td:last-child {
+  text-align: right !important;
+}
+
+/* Align the buttons as a group to the far right */
+.structure-page table td:last-child {
+  padding-right: 16px !important;
+  white-space: nowrap;
+}
+
+/* Buttons */
+.structure-page table td:last-child button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 10px;
+  margin-right: 0;
+}
+
+/* Remove unwanted spacing from wrappers */
+.structure-page table td:last-child > div {
+  display: flex;
+  justify-content: flex-end !important;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+/* Avoid double spacing */
+.structure-page table td:last-child > div button {
+  margin: 0;
+}

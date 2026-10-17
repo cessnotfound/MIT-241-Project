@@ -1,0 +1,6 @@
+/* OSAS comment history in Organization Renewal (additive styles only). */
+.renewal-comment-history { display: grid; gap: 10px; margin-top: 12px; }
+.renewal-comment-history-item { border: 1px solid #dae5dc; border-radius: 9px; padding: 12px 14px; background: #f8fbf9; }
+.renewal-comment-history-meta { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 6px 14px; color: #132d22; }
+.renewal-comment-history-meta time { font-size: 12px; color: #5c7183; }
+.renewal-comment-history-item p { margin: 7px 0 0; overflow-wrap: anywhere; }

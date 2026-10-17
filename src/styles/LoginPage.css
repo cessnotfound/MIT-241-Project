@@ -1,0 +1,39 @@
+/* Login page only; does not alter Organization or OSAS views. */
+.sas-login-page,.sas-login-page *{box-sizing:border-box}
+.sas-login-page{width:100%;min-height:100vh;margin:0;padding:0;color:#172b20;background:#fff;font-family:inherit}
+.sas-login-shell{position:relative;width:100%;min-height:100vh;display:grid;grid-template-columns:minmax(0,1fr) minmax(360px,465px);align-items:center;gap:clamp(24px,5vw,92px);padding:clamp(32px,7vw,110px) clamp(24px,8vw,150px);background:linear-gradient(90deg,rgba(3,36,15,.78) 0%,rgba(3,40,16,.53) 53%,rgba(3,40,16,.38) 100%),url('./mmsu.jpg') center/cover no-repeat;isolation:isolate}
+.sas-login-hero{min-width:0;color:white;display:flex;align-items:center}
+.sas-login-hero-content{width:100%}
+.sas-login-eyebrow{color:#e3f4e7;letter-spacing:.16em;font-size:clamp(12px,1.1vw,15px);font-weight:700;margin:0 0 20px}
+.sas-login-hero h1{color:#fff;font-weight:800;line-height:1.1;font-size:clamp(40px,5.7vw,84px);letter-spacing:-.035em;max-width:760px;margin:0 0 24px;text-shadow:0 2px 20px rgba(0,0,0,.2)}
+.sas-login-hero-description{color:#f0f7f1;font-size:clamp(16px,1.6vw,21px);line-height:1.5;margin:0;max-width:500px}
+.sas-login-panel{width:100%;max-width:465px;min-width:0;justify-self:end;border-radius:12px;background:white;padding:clamp(30px,4vw,52px);box-shadow:0 22px 60px rgba(0,0,0,.26)}
+.sas-login-content{width:100%}
+.sas-login-kicker{color:#147437;font-size:12px;letter-spacing:.12em;font-weight:800;margin:0 0 10px}
+.sas-login-panel h2{font-size:clamp(23px,2.5vw,30px);font-weight:800;line-height:1.2;letter-spacing:-.02em;color:#172b20;margin:0 0 12px}
+.sas-login-subtitle{font-size:14px;line-height:1.6;color:#617468;margin:0 0 32px}
+.sas-login-form{display:flex;flex-direction:column}
+.sas-login-form>label{font-size:13px;font-weight:700;color:#263d30;margin:0 0 9px}
+.sas-login-input-wrap{display:flex;align-items:center;width:100%;height:52px;padding:0 14px;border:1px solid #cbdcd0;border-radius:8px;background:#fff;margin:0 0 22px;transition:border-color .15s,box-shadow .15s}
+.sas-login-input-wrap:focus-within{border-color:#14783a;box-shadow:0 0 0 3px rgba(20,120,58,.13)}
+.sas-login-input-wrap>svg{width:19px;height:19px;flex-shrink:0;color:#7d9183}
+.sas-login-input-wrap input{flex:1;min-width:0;border:none!important;box-shadow:none!important;outline:none!important;background:transparent!important;height:100%;padding:0 10px!important;margin:0!important;font-family:inherit;font-size:14px;color:#183425}
+.sas-login-input-wrap input::placeholder{color:#9aaa9e}
+.sas-login-visibility{flex-shrink:0;width:35px;height:35px;border:0;background:transparent;color:#637669;display:grid;place-items:center;border-radius:7px;cursor:pointer}
+.sas-login-visibility svg{width:20px;height:20px}
+.sas-login-visibility:hover{background:#eef5f0}
+.sas-login-submit{display:flex;align-items:center;justify-content:center;gap:10px;height:52px;width:100%;border:0;border-radius:8px;background:#117333;color:#fff;font-weight:700;font-size:15px;cursor:pointer;margin-top:4px;transition:background .15s}
+.sas-login-submit svg{width:18px;height:18px}
+.sas-login-submit:hover:not(:disabled){background:#07551c}
+.sas-login-submit:disabled{opacity:.7;cursor:wait}
+.sas-login-message{margin:-2px 0 15px;padding:11px 13px;border-radius:7px;background:#fff1f1;color:#ae2626;font-size:13px;line-height:1.5}
+.sas-login-note{display:flex;justify-content:center;align-items:center;gap:8px;font-size:12px;color:#77877c;margin:24px 0 0}
+.sas-login-note svg{width:14px;height:14px}
+.sas-login-bottom{text-align:center;color:#89978d;font-size:11px;line-height:1.5;margin-top:24px}
+.sas-login-about{background:#fff;padding:clamp(62px,7vw,110px) 24px clamp(70px,9vw,140px);text-align:center}
+.sas-login-about-inner{max-width:1120px;margin:0 auto}
+.sas-login-about h2{color:#283d32;font-size:clamp(29px,3.5vw,43px);font-weight:400;letter-spacing:.02em;margin:0 0 24px}
+.sas-login-about p{color:#35433a;font-size:clamp(17px,1.7vw,22px);line-height:1.7;margin:0 auto;max-width:1080px}
+@media(max-width:900px){.sas-login-shell{grid-template-columns:1fr;min-height:100vh;gap:40px;padding:70px 28px}.sas-login-hero{justify-content:center;text-align:center}.sas-login-hero h1{font-size:clamp(38px,7vw,60px);margin-left:auto;margin-right:auto}.sas-login-hero-description{margin:auto}.sas-login-panel{justify-self:center;max-width:520px}}
+@media(max-width:500px){.sas-login-shell{padding:52px 16px 55px;gap:35px}.sas-login-hero h1{font-size:38px}.sas-login-panel{padding:30px 24px}.sas-login-about{padding:65px 20px 85px}.sas-login-about h2{font-size:31px}.sas-login-about p{font-size:17px}}
+@media(prefers-reduced-motion:reduce){.sas-login-page *{transition:none!important}}

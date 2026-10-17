@@ -1,0 +1,3 @@
+Optional timestamp styling (paste into existing src/styles/ApplicationRenewal.css and src/styles/OsasPages.css):
+.renewal-accountability { font-size: 0.82rem; color: #61758a; margin: 6px 0 6px 72px; }
+.osas-renewal-form > p.osas-muted { font-size: 0.82rem; margin: 5px 0 8px; }
