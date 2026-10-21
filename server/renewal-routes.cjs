@@ -1,6 +1,6 @@
 
 const express = require('express')
-const fs = require('node:fs/promises')
+const fs = require('./storage-files.cjs')
 const path = require('node:path')
 const crypto = require('node:crypto')
 
@@ -666,23 +666,8 @@ module.exports = function createRenewalRouter(pool) {
           'X-Content-Type-Options': 'nosniff',
         })
 
-        return res.sendFile(
-          path.join(UPLOAD_DIR, document.file_path),
-          (error) => {
-            if (error) {
-              console.error(
-                'View renewal file:',
-                error.message
-              )
+        return await fs.send(res, path.join(UPLOAD_DIR, document.file_path))
 
-              if (!res.headersSent) {
-                res.status(404).json({
-                  error: 'Unable to open document',
-                })
-              }
-            }
-          }
-        )
       } catch (error) {
         console.error(
           'Renewal document retrieval:',

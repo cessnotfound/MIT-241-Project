@@ -36,3 +36,10 @@ build/
 .env
 .env*
 !.env.example
+
+node_modules/
+.env
+.env.*
+!.env.example
+server/uploads/
+server/renewal-uploads/

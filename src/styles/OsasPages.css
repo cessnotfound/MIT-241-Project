@@ -1,154 +1,1260 @@
 /* OSAS-specific data presentation only; shell reuses OrganizationHeader and OrganizationTopBar */
-.osas-layout .organization-sidebar-photo { display:flex; align-items:center; justify-content:center; flex-direction:column; }
-.osas-sidebar-badge { width:148px; height:148px; border-radius:50%; border:5px solid white; background:#104c08; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:28px; box-shadow:0 2px 12px #0002; }
-.osas-top-logout { border:1px solid #fff8; color:#fff; background:transparent; padding:8px 12px; border-radius:5px; cursor:pointer; font:inherit; }
-.osas-top-logout:hover { background:#ffffff22; }
-.osas-page h1 { margin:0 0 8px; font-size:30px; color:#10243c; }
-.osas-page h2 { margin:28px 0 12px; font-size:22px; color:#10243c; border-bottom:1px solid #d5dedb; padding-bottom:12px; }
-.osas-muted { color:#60758e; }
-.osas-stat-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px; margin:26px 0; }
-.osas-stat { background:#f6faf7; border:1px solid #d7e4dc; border-radius:8px; padding:18px; display:flex; flex-direction:column; gap:12px; }
-.osas-stat span { color:#50647b; font-size:14px; }
-.osas-stat strong { font-size:30px; color:#11692c; }
-.osas-section-heading { display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; }
-.osas-primary { display:inline-block; color:#fff; background:#147a36; border-radius:6px; padding:11px 16px; text-decoration:none; font-weight:600; }
-.osas-table-scroll { overflow-x:auto; max-width:100%; }
-.osas-table { border-collapse:collapse; width:100%; min-width:620px; text-align:left; }
-.osas-table th,.osas-table td { padding:15px 12px; border-bottom:1px solid #dae2de; }
-.osas-table th { color:#10243c; font-weight:700; }
-.osas-table td { color:#243752; }
-.osas-status { font-size:13px; font-weight:700; color:#126c33; }
-.osas-search { width:min(440px,100%); box-sizing:border-box; padding:13px; border:1px solid #c9d8d0; border-radius:5px; font:inherit; margin:12px 0 22px; }
-.osas-link-button { background:none; border:0; color:#147a36; text-decoration:underline; font:inherit; font-weight:600; cursor:pointer; padding:8px 0; }
-.osas-details { display:grid; grid-template-columns:minmax(160px, 240px) minmax(0,1fr); gap:17px 20px; }
-.osas-details dt { font-weight:700; } .osas-details dd { margin:0; } .osas-error { color:#a31818; background:#fff3f3; padding:14px; border:1px solid #efbbbb; border-radius:5px; }
-@media(max-width:1100px) { .osas-stat-grid {grid-template-columns:repeat(2,minmax(0,1fr))} }
-@media(max-width:600px) { .osas-stat-grid {grid-template-columns:1fr} .osas-details {grid-template-columns:1fr;gap:5px;} .osas-details dd{margin-bottom:13px} }
+.osas-layout .organization-sidebar-photo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.osas-sidebar-badge {
+  width: 148px;
+  height: 148px;
+  border-radius: 50%;
+  border: 5px solid white;
+  background: #104c08;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 28px;
+  box-shadow: 0 2px 12px #0002;
+}
+.osas-top-logout {
+  border: 1px solid #fff8;
+  color: #fff;
+  background: transparent;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font: inherit;
+}
+.osas-top-logout:hover {
+  background: #ffffff22;
+}
+.osas-page h1 {
+  margin: 0 0 8px;
+  font-size: 30px;
+  color: #10243c;
+}
+.osas-page h2 {
+  margin: 28px 0 12px;
+  font-size: 22px;
+  color: #10243c;
+  border-bottom: 1px solid #d5dedb;
+  padding-bottom: 12px;
+}
+.osas-muted {
+  color: #60758e;
+}
+.osas-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin: 26px 0;
+}
+.osas-stat {
+  background: #f6faf7;
+  border: 1px solid #d7e4dc;
+  border-radius: 8px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.osas-stat span {
+  color: #50647b;
+  font-size: 14px;
+}
+.osas-stat strong {
+  font-size: 30px;
+  color: #11692c;
+}
+.osas-section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.osas-primary {
+  display: inline-block;
+  color: #fff;
+  background: #147a36;
+  border-radius: 6px;
+  padding: 11px 16px;
+  text-decoration: none;
+  font-weight: 600;
+}
+.osas-table-scroll {
+  overflow-x: auto;
+  max-width: 100%;
+}
+.osas-table {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 620px;
+  text-align: left;
+}
+.osas-table th,
+.osas-table td {
+  padding: 15px 12px;
+  border-bottom: 1px solid #dae2de;
+}
+.osas-table th {
+  color: #10243c;
+  font-weight: 700;
+}
+.osas-table td {
+  color: #243752;
+}
+.osas-status {
+  font-size: 13px;
+  font-weight: 700;
+  color: #126c33;
+}
+.osas-search {
+  width: min(440px, 100%);
+  box-sizing: border-box;
+  padding: 13px;
+  border: 1px solid #c9d8d0;
+  border-radius: 5px;
+  font: inherit;
+  margin: 12px 0 22px;
+}
+.osas-link-button {
+  background: none;
+  border: 0;
+  color: #147a36;
+  text-decoration: underline;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 8px 0;
+}
+.osas-details {
+  display: grid;
+  grid-template-columns: minmax(160px, 240px) minmax(0, 1fr);
+  gap: 17px 20px;
+}
+.osas-details dt {
+  font-weight: 700;
+}
+.osas-details dd {
+  margin: 0;
+}
+.osas-error {
+  color: #a31818;
+  background: #fff3f3;
+  padding: 14px;
+  border: 1px solid #efbbbb;
+  border-radius: 5px;
+}
+@media (max-width: 1100px) {
+  .osas-stat-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 600px) {
+  .osas-stat-grid {
+    grid-template-columns: 1fr;
+  }
+  .osas-details {
+    grid-template-columns: 1fr;
+    gap: 5px;
+  }
+  .osas-details dd {
+    margin-bottom: 13px;
+  }
+}
 /* OSAS renewal review; shared organization colors and form patterns */
-.osas-renewal-form{padding:18px 0;border-bottom:1px solid #d7e0db}
-.osas-renewal-form-head{display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap}
-.osas-renewal-form-head p{margin:6px 0}
-.osas-renewal-label{display:block;font-weight:600;margin:12px 0 8px}
-.osas-renewal-comment{display:block;box-sizing:border-box;width:100%;min-height:75px;padding:12px;border:1px solid #c9d8d0;border-radius:5px;font:inherit;resize:vertical}
-.osas-renewal-comment:disabled{background:#f4f6f5}
-.osas-renewal-actions,.osas-renewal-footer{display:flex;justify-content:flex-end;gap:10px;margin-top:12px;flex-wrap:wrap}
-.osas-renewal-footer{padding:22px 0}
-.osas-renewal-outline{border:1px solid #becfc3;border-radius:6px;background:#fff;color:#0e602a;padding:10px 15px;font:inherit;font-weight:600;cursor:pointer}
-.osas-renewal-button{border:0;cursor:pointer;font:inherit}
-.osas-renewal-button:disabled,.osas-renewal-outline:disabled{opacity:.55;cursor:not-allowed}
+.osas-renewal-form {
+  padding: 18px 0;
+  border-bottom: 1px solid #d7e0db;
+}
+.osas-renewal-form-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+.osas-renewal-form-head p {
+  margin: 6px 0;
+}
+.osas-renewal-label {
+  display: block;
+  font-weight: 600;
+  margin: 12px 0 8px;
+}
+.osas-renewal-comment {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 75px;
+  padding: 12px;
+  border: 1px solid #c9d8d0;
+  border-radius: 5px;
+  font: inherit;
+  resize: vertical;
+}
+.osas-renewal-comment:disabled {
+  background: #f4f6f5;
+}
+.osas-renewal-actions,
+.osas-renewal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+.osas-renewal-footer {
+  padding: 22px 0;
+}
+.osas-renewal-outline {
+  border: 1px solid #becfc3;
+  border-radius: 6px;
+  background: #fff;
+  color: #0e602a;
+  padding: 10px 15px;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+.osas-renewal-button {
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+}
+.osas-renewal-button:disabled,
+.osas-renewal-outline:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
 
 /* Organization directory: compact rectangular tiles, full-width list rows, top-overlapping profile popup */
-.osas-org-toolbar{display:flex;flex-wrap:wrap;align-items:end;gap:12px;margin:18px 0 8px}
-.osas-org-search{margin:0;flex:1 1 310px;max-width:460px}
-.osas-org-college-label{display:flex;flex-direction:column;gap:5px;font-size:13px;font-weight:700;color:#173046;flex:1 1 195px}
-.osas-org-select{box-sizing:border-box;width:100%;padding:12px 13px;border:1px solid #c9d8d0;border-radius:5px;background:white;font:inherit;font-size:15px;color:#1d3245;min-height:48px}
-.osas-org-view-switch{display:flex;gap:0;border:1px solid #c9d8d0;border-radius:6px;overflow:hidden;white-space:nowrap}
-.osas-org-view-switch button{background:#fff;border:0;padding:13px 14px;font:inherit;font-size:14px;cursor:pointer;color:#176331}
-.osas-org-view-switch button+button{border-left:1px solid #c9d8d0}
-.osas-org-view-switch button.is-active{background:#147a36;color:white}
-.osas-org-view-switch button:focus-visible,.osas-org-tile:focus-visible,.osas-org-list-row:focus-visible,.osas-org-modal-close:focus-visible{outline:3px solid #4b9c72;outline-offset:2px}
-.osas-org-result-count{font-size:14px;margin:10px 0 16px}
-.osas-org-tile-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,325px),1fr));gap:18px;align-items:stretch}
-.osas-org-tile{box-sizing:border-box;background:#fff;border:1px solid #cbd8cf;border-radius:8px;padding:22px;display:flex;flex-direction:column;gap:18px;min-height:168px;color:#10243c;text-align:left;font:inherit;cursor:pointer;transition:box-shadow .15s,border-color .15s}
-.osas-org-tile:hover,.osas-org-list-row:hover{border-color:#278849;box-shadow:0 4px 14px #00000012}
-.osas-org-tile-header{display:flex;align-items:center;gap:14px;min-width:0}
-.osas-org-avatar{width:66px;height:66px;flex:0 0 66px;border-radius:50%;background:#10501b;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;letter-spacing:.02em;border:3px solid #e7f0ea;box-sizing:border-box}
-.osas-org-tile-identity,.osas-org-list-text{display:flex;flex-direction:column;gap:4px;min-width:0}
-.osas-org-tile-identity strong,.osas-org-list-text strong{font-size:16px;line-height:1.3;overflow-wrap:anywhere}
-.osas-org-tile-identity small,.osas-org-list-text small{font-size:13px;color:#5d7488;overflow-wrap:anywhere}
-.osas-org-tile-description{color:#456077;line-height:1.5;display:-webkit-box;-webkit-line-clamp:3;line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
-.osas-org-list{display:flex;flex-direction:column;gap:12px}
-.osas-org-list-row{width:100%;min-height:86px;border:1px solid #cbd8cf;border-radius:8px;display:flex;align-items:center;text-align:left;gap:16px;background:#fff;padding:16px 22px;color:#10243c;font:inherit;cursor:pointer;transition:box-shadow .15s,border-color .15s}
-.osas-org-avatar-small{width:50px;height:50px;flex-basis:50px;font-size:15px;border-width:2px}
-.osas-org-list-text{flex:1}
-.osas-org-list-arrow{font-size:31px;line-height:1;color:#73869b}
-.osas-org-empty{padding:28px 16px;text-align:center;color:#60758e}
+.osas-org-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 12px;
+  margin: 18px 0 8px;
+}
+.osas-org-search {
+  margin: 0;
+  flex: 1 1 310px;
+  max-width: 460px;
+}
+.osas-org-college-label {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #173046;
+  flex: 1 1 195px;
+}
+.osas-org-select {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 12px 13px;
+  border: 1px solid #c9d8d0;
+  border-radius: 5px;
+  background: white;
+  font: inherit;
+  font-size: 15px;
+  color: #1d3245;
+  min-height: 48px;
+}
+.osas-org-view-switch {
+  display: flex;
+  gap: 0;
+  border: 1px solid #c9d8d0;
+  border-radius: 6px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.osas-org-view-switch button {
+  background: #fff;
+  border: 0;
+  padding: 13px 14px;
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  color: #176331;
+}
+.osas-org-view-switch button + button {
+  border-left: 1px solid #c9d8d0;
+}
+.osas-org-view-switch button.is-active {
+  background: #147a36;
+  color: white;
+}
+.osas-org-view-switch button:focus-visible,
+.osas-org-tile:focus-visible,
+.osas-org-list-row:focus-visible,
+.osas-org-modal-close:focus-visible {
+  outline: 3px solid #4b9c72;
+  outline-offset: 2px;
+}
+.osas-org-result-count {
+  font-size: 14px;
+  margin: 10px 0 16px;
+}
+.osas-org-tile-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 325px), 1fr));
+  gap: 18px;
+  align-items: stretch;
+}
+.osas-org-tile {
+  box-sizing: border-box;
+  background: #fff;
+  border: 1px solid #cbd8cf;
+  border-radius: 8px;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-height: 168px;
+  color: #10243c;
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+  transition:
+    box-shadow 0.15s,
+    border-color 0.15s;
+}
+.osas-org-tile:hover,
+.osas-org-list-row:hover {
+  border-color: #278849;
+  box-shadow: 0 4px 14px #00000012;
+}
+.osas-org-tile-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+.osas-org-avatar {
+  width: 66px;
+  height: 66px;
+  flex: 0 0 66px;
+  border-radius: 50%;
+  background: #10501b;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  border: 3px solid #e7f0ea;
+  box-sizing: border-box;
+}
+.osas-org-tile-identity,
+.osas-org-list-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.osas-org-tile-identity strong,
+.osas-org-list-text strong {
+  font-size: 16px;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+.osas-org-tile-identity small,
+.osas-org-list-text small {
+  font-size: 13px;
+  color: #5d7488;
+  overflow-wrap: anywhere;
+}
+.osas-org-tile-description {
+  color: #456077;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.osas-org-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.osas-org-list-row {
+  width: 100%;
+  min-height: 86px;
+  border: 1px solid #cbd8cf;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  text-align: left;
+  gap: 16px;
+  background: #fff;
+  padding: 16px 22px;
+  color: #10243c;
+  font: inherit;
+  cursor: pointer;
+  transition:
+    box-shadow 0.15s,
+    border-color 0.15s;
+}
+.osas-org-avatar-small {
+  width: 50px;
+  height: 50px;
+  flex-basis: 50px;
+  font-size: 15px;
+  border-width: 2px;
+}
+.osas-org-list-text {
+  flex: 1;
+}
+.osas-org-list-arrow {
+  font-size: 31px;
+  line-height: 1;
+  color: #73869b;
+}
+.osas-org-empty {
+  padding: 28px 16px;
+  text-align: center;
+  color: #60758e;
+}
 /* Modal shell allows the circular avatar to overlap its upper edge; only content scrolls. */
-.osas-org-modal-backdrop{position:fixed;inset:0;z-index:5000;background:#101b24a8;display:flex;justify-content:center;align-items:center;padding:92px 18px 26px;box-sizing:border-box}
-.osas-org-modal{position:relative;background:#fff;width:min(630px,100%);max-height:calc(100dvh - 135px);border-radius:12px;box-shadow:0 16px 55px #0004;box-sizing:border-box;display:flex;flex-direction:column;margin-top:38px;min-height:180px}
-.osas-org-modal-avatar{position:absolute;top:-65px;left:50%;transform:translateX(-50%);display:flex;align-items:center;justify-content:center;z-index:1;width:130px;height:130px;border-radius:50%;background:#10501b;color:#fff;font-size:34px;font-weight:800;border:6px solid #fff;box-shadow:0 4px 14px #0002;box-sizing:border-box}
-.osas-org-modal-content{padding:79px 34px 26px;overflow-y:auto;min-height:0;overscroll-behavior:contain}
-.osas-org-modal-content h2{margin:4px 0 4px;text-align:center;font-size:26px;border:0;padding:0;overflow-wrap:anywhere}
-.osas-org-modal-handle,.osas-org-modal-college{text-align:center;color:#65758a;margin:6px 0}
-.osas-org-modal-college{margin-bottom:13px}
-.osas-org-modal-content>.osas-status{display:block;text-align:center;margin-bottom:22px}
-.osas-org-modal-content h3{font-size:18px;color:#10243c;margin:22px 0 12px;padding-bottom:8px;border-bottom:1px solid #d5dedb}
-.osas-org-modal-details{display:grid;grid-template-columns:minmax(130px,42%) 1fr;gap:12px;margin:0}
-.osas-org-modal-details dt{font-weight:700}.osas-org-modal-details dd{margin:0;overflow-wrap:anywhere}
-.osas-org-modal-description{line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere}
-.osas-org-modal-close{position:absolute;top:10px;right:14px;background:#fff;border:0;font-size:28px;color:#587085;cursor:pointer;z-index:2;border-radius:4px}
-.osas-org-modal-footer{display:flex;justify-content:flex-end;margin-top:23px}
-.osas-org-modal-done{border:0;cursor:pointer;font:inherit}
-@media(max-width:600px){.osas-org-view-switch{width:100%}.osas-org-view-switch button{flex:1}.osas-org-modal-content{padding:79px 18px 22px}.osas-org-modal-details{grid-template-columns:1fr;gap:5px}.osas-org-modal-details dd{margin-bottom:10px}.osas-org-modal-avatar{width:112px;height:112px;top:-56px}.osas-org-modal{max-height:calc(100dvh - 113px);margin-top:23px}}
+.osas-org-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 5000;
+  background: #101b24a8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 92px 18px 26px;
+  box-sizing: border-box;
+}
+.osas-org-modal {
+  position: relative;
+  background: #fff;
+  width: min(630px, 100%);
+  max-height: calc(100dvh - 135px);
+  border-radius: 12px;
+  box-shadow: 0 16px 55px #0004;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  margin-top: 38px;
+  min-height: 180px;
+}
+.osas-org-modal-avatar {
+  position: absolute;
+  top: -65px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  background: #10501b;
+  color: #fff;
+  font-size: 34px;
+  font-weight: 800;
+  border: 6px solid #fff;
+  box-shadow: 0 4px 14px #0002;
+  box-sizing: border-box;
+}
+.osas-org-modal-content {
+  padding: 79px 34px 26px;
+  overflow-y: auto;
+  min-height: 0;
+  overscroll-behavior: contain;
+}
+.osas-org-modal-content h2 {
+  margin: 4px 0 4px;
+  text-align: center;
+  font-size: 26px;
+  border: 0;
+  padding: 0;
+  overflow-wrap: anywhere;
+}
+.osas-org-modal-handle,
+.osas-org-modal-college {
+  text-align: center;
+  color: #65758a;
+  margin: 6px 0;
+}
+.osas-org-modal-college {
+  margin-bottom: 13px;
+}
+.osas-org-modal-content > .osas-status {
+  display: block;
+  text-align: center;
+  margin-bottom: 22px;
+}
+.osas-org-modal-content h3 {
+  font-size: 18px;
+  color: #10243c;
+  margin: 22px 0 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #d5dedb;
+}
+.osas-org-modal-details {
+  display: grid;
+  grid-template-columns: minmax(130px, 42%) 1fr;
+  gap: 12px;
+  margin: 0;
+}
+.osas-org-modal-details dt {
+  font-weight: 700;
+}
+.osas-org-modal-details dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.osas-org-modal-description {
+  line-height: 1.6;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.osas-org-modal-close {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  background: #fff;
+  border: 0;
+  font-size: 28px;
+  color: #587085;
+  cursor: pointer;
+  z-index: 2;
+  border-radius: 4px;
+}
+.osas-org-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 23px;
+}
+.osas-org-modal-done {
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+}
+@media (max-width: 600px) {
+  .osas-org-view-switch {
+    width: 100%;
+  }
+  .osas-org-view-switch button {
+    flex: 1;
+  }
+  .osas-org-modal-content {
+    padding: 79px 18px 22px;
+  }
+  .osas-org-modal-details {
+    grid-template-columns: 1fr;
+    gap: 5px;
+  }
+  .osas-org-modal-details dd {
+    margin-bottom: 10px;
+  }
+  .osas-org-modal-avatar {
+    width: 112px;
+    height: 112px;
+    top: -56px;
+  }
+  .osas-org-modal {
+    max-height: calc(100dvh - 113px);
+    margin-top: 23px;
+  }
+}
 
 /* Organization profile photos: use the original uploaded image without stretching. */
-.osas-org-avatar-image{display:block;width:100%;height:100%;border-radius:50%;object-fit:cover;object-position:center;min-width:0;min-height:0}
+.osas-org-avatar-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
+  min-width: 0;
+  min-height: 0;
+}
 
 /* OSAS review: compact icon actions, append-only timestamped feedback */
-.osas-renewal-icon{display:inline-flex;align-items:center;justify-content:center;width:39px;height:39px;background:transparent;border:0;border-radius:6px;color:#127a38;cursor:pointer;text-decoration:none}
-.osas-renewal-icon:hover{background:#edf6ef}
-.osas-renewal-icon:focus-visible{outline:2px solid #16803c;outline-offset:2px}
-.osas-renewal-icon:disabled{opacity:.4;cursor:not-allowed}
-.osas-renewal-return{color:#b76d11}
-.osas-renewal-approve{color:#15803d}
-.osas-comment-history{display:flex;flex-direction:column;gap:10px;margin:7px 0 14px}
-.osas-comment-item{background:#f7faf8;border:1px solid #d9e4dc;border-radius:7px;padding:12px 14px}
-.osas-comment-item p{margin:7px 0 0;white-space:pre-wrap;overflow-wrap:anywhere}
-.osas-comment-meta{display:flex;gap:10px;justify-content:space-between;align-items:center;flex-wrap:wrap;font-size:13px}
-.osas-comment-meta time{color:#61798a;font-size:12px}
-.osas-comment-empty{font-size:14px;margin:9px 0}
-.osas-visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.osas-renewal-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 39px;
+  height: 39px;
+  background: transparent;
+  border: 0;
+  border-radius: 6px;
+  color: #127a38;
+  cursor: pointer;
+  text-decoration: none;
+}
+.osas-renewal-icon:hover {
+  background: #edf6ef;
+}
+.osas-renewal-icon:focus-visible {
+  outline: 2px solid #16803c;
+  outline-offset: 2px;
+}
+.osas-renewal-icon:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.osas-renewal-return {
+  color: #b76d11;
+}
+.osas-renewal-approve {
+  color: #15803d;
+}
+.osas-comment-history {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 7px 0 14px;
+}
+.osas-comment-item {
+  background: #f7faf8;
+  border: 1px solid #d9e4dc;
+  border-radius: 7px;
+  padding: 12px 14px;
+}
+.osas-comment-item p {
+  margin: 7px 0 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.osas-comment-meta {
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  font-size: 13px;
+}
+.osas-comment-meta time {
+  color: #61798a;
+  font-size: 12px;
+}
+.osas-comment-empty {
+  font-size: 14px;
+  margin: 9px 0;
+}
+.osas-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
 
 /* OSAS renewal compact single-line actions, expandable comment panel, status tabs */
-.osas-renewal-form-head{flex-wrap:nowrap;align-items:center}
-.osas-renewal-form-info{min-width:0;flex:1}
-.osas-renewal-form-info p{overflow-wrap:anywhere}
-.osas-renewal-inline-icons{display:flex;align-items:center;gap:4px;flex-shrink:0}
-.osas-renewal-inline-icons .osas-renewal-icon{position:relative;flex:0 0 39px}
-.osas-renewal-icon.is-active{background:#e9f6ec;color:#0e6d2d}
-.osas-renewal-comment-count{position:absolute;right:0;top:0;min-width:15px;height:15px;border-radius:50%;background:#176c35;color:#fff;font-size:10px;line-height:15px;text-align:center}
-.osas-renewal-comment-panel{padding:14px 0 2px}
-.osas-renewal-comment-panel h3{font-size:15px;margin:0 0 12px}
-.osas-renewal-back{display:inline-flex;align-items:center;gap:8px;background:transparent;border:0;padding:4px 0;color:#127a38;font:inherit;font-weight:600;cursor:pointer}
-.osas-renewal-back:hover{text-decoration:underline}
-.osas-renewal-status-tabs{display:flex;flex-wrap:wrap;gap:4px;border-bottom:1px solid #d6e0da;margin:20px 0 14px}
-.osas-renewal-status-tabs button{padding:11px 18px;border:0;border-bottom:3px solid transparent;background:transparent;color:#33556c;font:inherit;cursor:pointer}
-.osas-renewal-status-tabs button.is-active{color:#127a38;border-bottom-color:#127a38;font-weight:700}
-.osas-renewal-status-tabs button:focus-visible{outline:2px solid #127a38;outline-offset:2px}
-@media(max-width:550px){.osas-renewal-inline-icons{gap:0}.osas-renewal-inline-icons .osas-renewal-icon{width:34px;flex-basis:34px}.osas-renewal-status-tabs button{padding:9px 11px}}
+.osas-renewal-form-head {
+  flex-wrap: nowrap;
+  align-items: center;
+}
+.osas-renewal-form-info {
+  min-width: 0;
+  flex: 1;
+}
+.osas-renewal-form-info p {
+  overflow-wrap: anywhere;
+}
+.osas-renewal-inline-icons {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+.osas-renewal-inline-icons .osas-renewal-icon {
+  position: relative;
+  flex: 0 0 39px;
+}
+.osas-renewal-icon.is-active {
+  background: #e9f6ec;
+  color: #0e6d2d;
+}
+.osas-renewal-comment-count {
+  position: absolute;
+  right: 0;
+  top: 0;
+  min-width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #176c35;
+  color: #fff;
+  font-size: 10px;
+  line-height: 15px;
+  text-align: center;
+}
+.osas-renewal-comment-panel {
+  padding: 14px 0 2px;
+}
+.osas-renewal-comment-panel h3 {
+  font-size: 15px;
+  margin: 0 0 12px;
+}
+.osas-renewal-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: 0;
+  padding: 4px 0;
+  color: #127a38;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+.osas-renewal-back:hover {
+  text-decoration: underline;
+}
+.osas-renewal-status-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  border-bottom: 1px solid #d6e0da;
+  margin: 20px 0 14px;
+}
+.osas-renewal-status-tabs button {
+  padding: 11px 18px;
+  border: 0;
+  border-bottom: 3px solid transparent;
+  background: transparent;
+  color: #33556c;
+  font: inherit;
+  cursor: pointer;
+}
+.osas-renewal-status-tabs button.is-active {
+  color: #127a38;
+  border-bottom-color: #127a38;
+  font-weight: 700;
+}
+.osas-renewal-status-tabs button:focus-visible {
+  outline: 2px solid #127a38;
+  outline-offset: 2px;
+}
+@media (max-width: 550px) {
+  .osas-renewal-inline-icons {
+    gap: 0;
+  }
+  .osas-renewal-inline-icons .osas-renewal-icon {
+    width: 34px;
+    flex-basis: 34px;
+  }
+  .osas-renewal-status-tabs button {
+    padding: 9px 11px;
+  }
+}
 
 /* OSAS account controls: reuse organization shell and photo components. */
-.osas-account-section { margin-top: 40px; }
-.osas-account-section h2 { border-bottom:1px solid #d5dedb; padding-bottom:12px; }
-.osas-account-row { display:grid; grid-template-columns: minmax(150px,270px) 1fr; gap:18px; margin:24px 0 10px; }
-.osas-account-password { margin-top:24px; }
-.osas-account-form { display:grid;gap:14px;max-width:560px;margin-top:16px; }
-.osas-account-form label { font-weight:600; display:grid;gap:6px; }
-.osas-account-form input { padding:11px;border:1px solid #c9d8d0;border-radius:5px;font:inherit; }
-.osas-account-buttons { display:flex; gap:10px; }
-.osas-account-buttons button { cursor:pointer;font:inherit;padding:10px 16px;border-radius:6px; }
-.osas-account-success { color:#146630; background:#f0faf2;border:1px solid #bce0c4;padding:12px; }
-@media(max-width:600px){ .osas-account-row{grid-template-columns:1fr;gap:4px} }
+.osas-account-section {
+  margin-top: 40px;
+}
+.osas-account-section h2 {
+  border-bottom: 1px solid #d5dedb;
+  padding-bottom: 12px;
+}
+.osas-account-row {
+  display: grid;
+  grid-template-columns: minmax(150px, 270px) 1fr;
+  gap: 18px;
+  margin: 24px 0 10px;
+}
+.osas-account-password {
+  margin-top: 24px;
+}
+.osas-account-form {
+  display: grid;
+  gap: 14px;
+  max-width: 560px;
+  margin-top: 16px;
+}
+.osas-account-form label {
+  font-weight: 600;
+  display: grid;
+  gap: 6px;
+}
+.osas-account-form input {
+  padding: 11px;
+  border: 1px solid #c9d8d0;
+  border-radius: 5px;
+  font: inherit;
+}
+.osas-account-buttons {
+  display: flex;
+  gap: 10px;
+}
+.osas-account-buttons button {
+  cursor: pointer;
+  font: inherit;
+  padding: 10px 16px;
+  border-radius: 6px;
+}
+.osas-account-success {
+  color: #146630;
+  background: #f0faf2;
+  border: 1px solid #bce0c4;
+  padding: 12px;
+}
+@media (max-width: 600px) {
+  .osas-account-row {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+}
 
 /* OSAS renewal and organization status: extend existing UI styles only */
-.osas-renewal-org-cell{display:flex;align-items:center;gap:12px;min-width:190px}
-.osas-renewal-org-avatar{display:inline-flex;width:40px;height:40px;min-width:40px;align-items:center;justify-content:center;overflow:hidden;background:#10501b;color:#fff;font-size:12px;font-weight:700;border-radius:50%;border:2px solid #e5eee7;box-sizing:border-box}
-.osas-renewal-org-avatar img{width:100%;height:100%;object-fit:cover;display:block}
-.osas-org-renewal-status{display:inline-flex;align-self:flex-start;font-size:11px;font-weight:700;letter-spacing:.02em;white-space:nowrap;border-radius:999px;padding:4px 9px}
-.osas-org-renewal-status.is-renewed{background:#dcfce8;color:#136c35}
-.osas-org-renewal-status.is-not-renewed{background:#fff2cd;color:#885309}
-.osas-org-list-row .osas-org-renewal-status{align-self:center}
-.osas-org-tile>.osas-org-renewal-status{margin-top:-4px}
+.osas-renewal-org-cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 190px;
+}
+.osas-renewal-org-avatar {
+  display: inline-flex;
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #10501b;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 50%;
+  border: 2px solid #e5eee7;
+  box-sizing: border-box;
+}
+.osas-renewal-org-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.osas-org-renewal-status {
+  display: inline-flex;
+  align-self: flex-start;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  border-radius: 999px;
+  padding: 4px 9px;
+}
+.osas-org-renewal-status.is-renewed {
+  background: #dcfce8;
+  color: #136c35;
+}
+.osas-org-renewal-status.is-not-renewed {
+  background: #fff2cd;
+  color: #885309;
+}
+.osas-org-list-row .osas-org-renewal-status {
+  align-self: center;
+}
+.osas-org-tile > .osas-org-renewal-status {
+  margin-top: -4px;
+}
 
 /* Renewal detail heading — same compact, icon-only pattern as Organization View. */
-.osas-renewal-review-header{display:flex;align-items:flex-start;gap:18px;margin-bottom:26px}
-.osas-renewal-review-back{display:inline-flex;align-items:center;justify-content:center;flex:0 0 30px;width:30px;height:34px;margin-top:1px;padding:4px;border:0;background:transparent;color:#117238;cursor:pointer;border-radius:5px}
-.osas-renewal-review-back:hover,.osas-renewal-review-back:focus-visible{background:#eaf3ec}
-.osas-renewal-review-heading{flex:1;min-width:0}
-.osas-renewal-review-heading h1{margin:0 0 12px;padding:0;border:0;font-size:26px;line-height:1.25}
-.osas-renewal-review-heading p{margin:0 0 9px;line-height:1.45}
-.osas-renewal-review-org{font-size:16px}
-.osas-renewal-review-org strong{font-weight:700}
-.osas-renewal-review-submitted{font-size:13px;color:#637993;margin-top:6px!important}
-.osas-renewal-review-submitted span{font-weight:500}
-@media(max-width:600px){.osas-renewal-review-header{gap:10px}.osas-renewal-review-heading h1{font-size:22px}}
+.osas-renewal-review-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  margin-bottom: 26px;
+}
+.osas-renewal-review-back {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 30px;
+  width: 30px;
+  height: 34px;
+  margin-top: 1px;
+  padding: 4px;
+  border: 0;
+  background: transparent;
+  color: #117238;
+  cursor: pointer;
+  border-radius: 5px;
+}
+.osas-renewal-review-back:hover,
+.osas-renewal-review-back:focus-visible {
+  background: #eaf3ec;
+}
+.osas-renewal-review-heading {
+  flex: 1;
+  min-width: 0;
+}
+.osas-renewal-review-heading h1 {
+  margin: 0 0 12px;
+  padding: 0;
+  border: 0;
+  font-size: 26px;
+  line-height: 1.25;
+}
+.osas-renewal-review-heading p {
+  margin: 0 0 9px;
+  line-height: 1.45;
+}
+.osas-renewal-review-org {
+  font-size: 16px;
+}
+.osas-renewal-review-org strong {
+  font-weight: 700;
+}
+.osas-renewal-review-submitted {
+  font-size: 13px;
+  color: #637993;
+  margin-top: 6px !important;
+}
+.osas-renewal-review-submitted span {
+  font-weight: 500;
+}
+@media (max-width: 600px) {
+  .osas-renewal-review-header {
+    gap: 10px;
+  }
+  .osas-renewal-review-heading h1 {
+    font-size: 22px;
+  }
+}
+
+/* Shared OSAS review/list presentation: Accomplishment Reports + Financial Statements */
+.osas-review-page {
+  width: 100%;
+  max-width: 100%;
+  padding-bottom: 50px;
+  color: #10243c;
+  box-sizing: border-box;
+}
+.osas-review-page *,
+.osas-review-page *::before,
+.osas-review-page *::after {
+  box-sizing: border-box;
+}
+.osas-review-page > h1 {
+  margin: 0 0 8px;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #10243c;
+}
+.osas-review-subtitle {
+  margin: 0;
+  color: #60758e;
+  font-size: 16px;
+  line-height: 1.5;
+}
+.osas-review-tabs {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid #d8e0dc;
+  margin: 22px 0 16px;
+}
+.osas-review-page .osas-review-tabs button {
+  background: transparent;
+  border: 0;
+  border-bottom: 3px solid transparent;
+  padding: 12px 17px;
+  color: #08702c;
+  font-family: inherit;
+  font-size: 16px;
+  line-height: 1.2;
+  cursor: pointer;
+}
+.osas-review-page .osas-review-tabs button.active {
+  background: #e9eeeb;
+  border-bottom-color: #137536;
+  font-weight: 700;
+}
+.osas-review-page .osas-review-tabs button:hover:not(.active) {
+  background: #f2f7f3;
+}
+.osas-review-filters {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr);
+  gap: 12px;
+  margin: 0;
+}
+.osas-review-page .osas-review-filters input,
+.osas-review-page .osas-review-filters select {
+  width: 100%;
+  min-width: 0;
+  min-height: 48px;
+  box-sizing: border-box;
+  border: 1px solid #c9d9ce;
+  border-radius: 5px;
+  padding: 13px;
+  background: #fff;
+  color: #10243c;
+  font-family: inherit;
+  font-size: 16px;
+  line-height: 1.2;
+}
+.osas-review-page .osas-review-filters input::placeholder {
+  color: #65758a;
+}
+.osas-review-status-tabs {
+  margin-top: 22px;
+}
+.osas-review-page .osas-table {
+  font-size: 16px;
+}
+@media (max-width: 800px) {
+  .osas-review-filters {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 600px) {
+  .osas-review-page > h1 {
+    font-size: 27px;
+  }
+  .osas-review-tabs {
+    gap: 4px;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+  }
+  .osas-review-page .osas-review-tabs button {
+    white-space: nowrap;
+    padding: 11px 14px;
+  }
+}
+
+/* OSAS directory-to-profile detail view (not a popup). */
+.osas-org-return {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  color: #12602d;
+  border-radius: 6px;
+  padding: 8px;
+  font: inherit;
+  cursor: pointer;
+  margin: 0 0 14px;
+}
+.osas-org-return:hover {
+  color: #06451c;
+  background: transparent;
+}
+.osas-org-return:focus-visible {
+  outline: 2px solid #12602d;
+  outline-offset: 2px;
+}
+.osas-org-section-year {
+  font-size: 14px;
+  font-weight: 500;
+  color: #64748b;
+  margin-left: 10px;
+  white-space: nowrap;
+}
+.osas-org-profile {
+  border: 1px solid #dce6df;
+  border-radius: 12px;
+  background: #fff;
+  overflow: hidden;
+}
+.osas-org-profile-header {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  padding: 30px 34px;
+  background: #f4f8f5;
+  border-bottom: 1px solid #dce6df;
+}
+.osas-org-profile-header .osas-org-modal-avatar {
+  position: static;
+  transform: none;
+  flex: 0 0 114px;
+  width: 114px;
+  height: 114px;
+  box-shadow: 0 2px 10px #0002;
+}
+.osas-org-profile-identity h1 {
+  margin: 0 0 8px;
+  color: #132a3f;
+  font-size: clamp(23px, 3vw, 32px);
+}
+.osas-org-profile-identity p {
+  margin: 5px 0;
+  color: #64748b;
+}
+.osas-org-profile-identity .osas-org-renewal-status {
+  display: inline-block;
+  margin-top: 9px;
+}
+.osas-org-profile-content {
+  padding: 6px 34px 34px;
+}
+.osas-org-profile-section {
+  padding: 15px 0 9px;
+}
+.osas-org-profile-section + .osas-org-profile-section {
+  border-top: 1px solid #e4eae6;
+}
+.osas-org-profile-section h2 {
+  color: #132a3f;
+  font-size: 20px;
+  margin: 8px 0 18px;
+}
+.osas-org-people-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+}
+.osas-org-person {
+  border: 1px solid #dce6df;
+  background: #fbfdfb;
+  border-radius: 8px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.osas-org-person strong {
+  color: #14283c;
+}
+.osas-org-person span {
+  color: #5a6b7e;
+  font-size: 14px;
+}
+@media (max-width: 600px) {
+  .osas-org-profile-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
+    padding: 24px 18px;
+  }
+  .osas-org-profile-content {
+    padding: 4px 18px 24px;
+  }
+}
+
+/* Shared OSAS review row interactions */
+.osas-clickable-review {
+  cursor: pointer;
+}
+.osas-clickable-review:hover {
+  background: #f3f8f4;
+}
+.osas-clickable-review:focus-visible {
+  outline: 2px solid #13783c;
+  outline-offset: -2px;
+}
+.osas-renewal-return-time {
+  display: block;
+  margin: 6px 0 8px;
+  color: #66798a;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+/* Return audit entries belong inside the OSAS comments panel. */
+.osas-return-event {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px 12px;
+  margin: 7px 0;
+  padding: 9px 12px;
+  border: 1px solid #dce6df;
+  border-radius: 7px;
+  background: #f6faf7;
+  color: #586f7d;
+  font-size: 12px;
+}
+.osas-return-event strong {
+  font-weight: 600;
+  color: #355943;
+}
+.osas-return-event time {
+  font-size: 12px;
+}
+.osas-clickable-review,
+.osas-clickable-review > td,
+.osas-clickable-review td * {
+  cursor: pointer;
+}
+
+/* Match the organization renewal comments and activity panel in OSAS review. */
+.osas-renewal-form .osas-compact-comments {
+  background: #f7faf8;
+  border: 1px solid #d9e4dc;
+  border-radius: 8px;
+  margin: 8px 0 12px;
+  padding: 12px 15px;
+}
+.osas-renewal-form .osas-compact-comments h3 {
+  margin: 0 0 8px;
+  font-size: 13px;
+  color: #1a2d40;
+}
+.osas-compact-comments .osas-comment-history {
+  margin: 0 0 9px;
+  gap: 8px;
+}
+.osas-compact-comments .osas-comment-item {
+  background: #fff;
+  border: 1px solid #d9e4dc;
+  padding: 9px 12px;
+  font-size: 13px;
+}
+.osas-compact-comments .osas-comment-item p {
+  margin-top: 7px;
+}
+.osas-comment-timeline {
+  border-top: 1px solid #dce4df;
+  padding-top: 7px;
+  margin-top: 9px;
+}
+.osas-comment-timeline-entry {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+  padding: 3px 0;
+  color: #587189;
+  font-size: 12px;
+}
+.osas-comment-timeline-entry time {
+  white-space: nowrap;
+  color: #587189;
+  font-size: 11px;
+}
+.osas-compact-comments .osas-comment-composer {
+  margin-top: 13px;
+}
+/* Override any table-cell/text cursor styling for the three OSAS review lists. */
+.osas-page .osas-table tbody tr.osas-clickable-review,
+.osas-page .osas-table tbody tr.osas-clickable-review td,
+.osas-page .osas-table tbody tr.osas-clickable-review td *,
+.osas-page .osas-table tbody tr.osas-clickable-review:hover,
+.osas-page .osas-table tbody tr.osas-clickable-review:hover td,
+.osas-page .osas-table tbody tr.osas-clickable-review:hover td * {
+  cursor: pointer !important;
+}
+.osas-page .osas-table tbody tr.osas-clickable-review:hover {
+  background-color: #f1f8f3;
+}
+@media (max-width: 600px) {
+  .osas-comment-timeline-entry {
+    flex-wrap: wrap;
+  }
+}

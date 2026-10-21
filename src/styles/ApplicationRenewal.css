@@ -1,4 +1,3 @@
-
 /* ==========================================
    STUDENT ORGANIZATION PORTAL
    APPLICATION FOR RENEWAL
@@ -18,7 +17,7 @@
 /* PAGE HEADING */
 
 .renewal-page-heading {
-  margin-bottom: 20px;
+  margin-bottom: 4px;
 }
 
 .renewal-page-heading h1 {
@@ -28,11 +27,52 @@
   font-weight: 700;
 }
 
+/* Quiet header action, scoped to the organization renewal page. */
+.renewal-page .renewal-page-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+}
+
+.renewal-page .renewal-templates-download.renewal-page-download {
+  margin: 0;
+  padding: 7px 10px;
+  border: 1px solid #cbded0;
+  border-radius: 6px;
+  background: transparent;
+  box-shadow: none;
+  color: #176436;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.4;
+  gap: 6px;
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+
+.renewal-page .renewal-templates-download.renewal-page-download:hover {
+  background: #f0f7f2;
+  border-color: #9bc5a7;
+  color: #0d512b;
+}
+
+.renewal-page .renewal-templates-download.renewal-page-download:focus-visible {
+  outline: 2px solid #137632;
+  outline-offset: 3px;
+}
+
+.renewal-page .renewal-page-download svg {
+  width: 15px;
+  height: 15px;
+}
+
 /* RECOGNITION INFORMATION */
 
 .renewal-recognition {
-  padding: 24px 15px 28px;
-  margin-bottom: 22px;
+  padding: 4px 15px 16px;
+  margin-bottom: 12px;
   text-align: center;
   border-bottom: 1px solid #e2e8e3;
 }
@@ -60,7 +100,7 @@
 
 .renewal-recognition-message {
   max-width: 650px;
-  margin: 20px auto 0;
+  margin: 12px auto 0;
   color: #64748b;
   font-size: 15px;
   line-height: 1.7;
@@ -359,7 +399,9 @@
 
 .renewal-submit-only {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
   align-items: center;
   margin-top: 22px;
   padding: 0;
@@ -386,6 +428,26 @@
 .renewal-submit-only button:disabled {
   background: #a3b5a9;
   cursor: not-allowed;
+}
+
+/* Secondary Templates action below the six forms. */
+.renewal-page .renewal-submit-only .renewal-page-download {
+  min-height: 34px;
+  margin-right: auto;
+  padding: 7px 11px;
+  border: 1px solid #cbded0;
+  border-radius: 6px;
+  background: #fff;
+  color: #176436;
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: none;
+}
+
+.renewal-page .renewal-submit-only .renewal-page-download:hover:not(:disabled) {
+  background: #f0f7f2;
+  color: #0d512b;
+  border-color: #9bc5a7;
 }
 
 /* MESSAGES */
@@ -458,7 +520,10 @@
 .renewal-comment-icon svg,
 .renewal-compact-view svg,
 .renewal-compact-upload svg,
-.renewal-compact-remove svg { display: block; flex-shrink: 0; }
+.renewal-compact-remove svg {
+  display: block;
+  flex-shrink: 0;
+}
 .renewal-compact-remove {
   display: inline-flex;
   align-items: center;
@@ -474,10 +539,17 @@
   font-weight: 600;
   cursor: pointer;
 }
-.renewal-compact-remove:hover:not(:disabled) { background: #fff0f0; }
-.renewal-compact-remove:disabled { opacity: .55; cursor: not-allowed; }
-.renewal-compact-remove:focus-visible { outline: 2px solid #b42318; outline-offset: 2px; }
-
+.renewal-compact-remove:hover:not(:disabled) {
+  background: #fff0f0;
+}
+.renewal-compact-remove:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.renewal-compact-remove:focus-visible {
+  outline: 2px solid #b42318;
+  outline-offset: 2px;
+}
 
 /* Renewal icon-action rows — replace accordion affordance. */
 .renewal-form-row {
@@ -512,16 +584,31 @@
   cursor: pointer;
   box-sizing: border-box;
 }
-.renewal-icon-control svg { display: block; flex-shrink: 0; }
-.renewal-icon-control:hover, .renewal-icon-control.active { background: #e9f4ec; }
-.renewal-icon-control.danger { color: #dc2626; }
-.renewal-icon-control.danger:hover { background: #fff0f0; }
-.renewal-icon-control.comment { color: #475569; }
-.renewal-icon-control:focus-visible, .renewal-icon-file-picker:focus-within {
+.renewal-icon-control svg {
+  display: block;
+  flex-shrink: 0;
+}
+.renewal-icon-control:hover,
+.renewal-icon-control.active {
+  background: #e9f4ec;
+}
+.renewal-icon-control.danger {
+  color: #dc2626;
+}
+.renewal-icon-control.danger:hover {
+  background: #fff0f0;
+}
+.renewal-icon-control.comment {
+  color: #475569;
+}
+.renewal-icon-control:focus-visible,
+.renewal-icon-file-picker:focus-within {
   outline: 2px solid #166534;
   outline-offset: 2px;
 }
-.renewal-icon-file-picker { overflow: hidden; }
+.renewal-icon-file-picker {
+  overflow: hidden;
+}
 .renewal-icon-file-picker input[type="file"] {
   position: absolute;
   width: 1px;
@@ -545,11 +632,30 @@
   border: 1px solid #e1e9e3;
   border-radius: 8px;
 }
-.renewal-inline-status { margin: 0 0 8px 62px; font-size: 13px; color: #166534; }
+.renewal-inline-status {
+  margin: 0 0 8px 62px;
+  font-size: 13px;
+  color: #166534;
+}
 @media (max-width: 650px) {
-  .renewal-form-row { gap: 8px; padding: 12px 5px; }
-  .renewal-form-icon-actions { gap: 0; }
-  .renewal-icon-control { width: 33px; min-width: 33px; height: 36px; padding: 6px; }
-  .renewal-form-badge { display: none; }
-  .renewal-comment-panel { margin-left: 5px; padding-left: 13px; }
+  .renewal-form-row {
+    gap: 8px;
+    padding: 12px 5px;
+  }
+  .renewal-form-icon-actions {
+    gap: 0;
+  }
+  .renewal-icon-control {
+    width: 33px;
+    min-width: 33px;
+    height: 36px;
+    padding: 6px;
+  }
+  .renewal-form-badge {
+    display: none;
+  }
+  .renewal-comment-panel {
+    margin-left: 5px;
+    padding-left: 13px;
+  }
 }

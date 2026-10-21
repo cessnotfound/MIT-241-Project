@@ -1,64 +1,898 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import { osasGet } from './osasTypes'
-import '../../styles/FinancialStatements.css'
-import '../../styles/AccomplishmentReports.css'
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { osasGet } from "./osasTypes";
+import ApprovedArchiveBrowser from "./ApprovedArchiveBrowser";
+import "../../styles/FinancialStatements.css";
 
-type Statement={id:string;organization_id:string;organization_name:string;college:string;academic_year:string;current_academic_year:string;reference_number:string|null;status:string;submitted_at:string|null}
-type Schedule={id:string;schedule_code:string;schedule_title:string;cash_flow_type:'INFLOW'|'OUTFLOW';semester:number;description:string|null}
-type Entry={id:string;schedule_id:string;entry_date:string;description:string;receipt_number:string|null;quantity:number|null;unit_price:number|null;amount:number;notes:string|null}
-type Collectible={id:string;debtor_name:string|null;description:string;amount_due:number;amount_received:number;due_date:string|null}
-type Attachment={id:string;schedule_id:string|null;entry_id:string|null;file_name:string;mime_type:string;file_kind:string}
-type Comment={id:string;comment_text:string;sender:string;created_at:string}
-type Detail={statement:Statement;organization:{organization_name:string;college:string};schedules:Schedule[];entries:Entry[];collectibles:Collectible[];attachments:Attachment[];comments:Comment[];review_timeline?:{returned_at:string|null;reviewed_at:string|null}}
-type Archive={id:string;organization_name:string;college:string;organization_id:string;academic_year:string;approved_at:string;reference_number:string}
-type ArchivedDetail={snapshot:{statement:Statement;schedules:Schedule[];entries:Entry[];collectibles:Collectible[];attachments:Attachment[]};files:{id:string;original_filename:string;source_attachment_id:string}[];approved_at:string}
-type Flow='INFLOW'|'OUTFLOW'|'SUMMARY'
-const root='/api/osas/fs'
-const peso=(x:number)=>new Intl.NumberFormat('en-PH',{style:'currency',currency:'PHP'}).format(x)
-const stamp=(s:string|null|undefined)=>s?new Date(s).toLocaleString('en-PH'):'—'
-const nameStatus=(s:string)=>s.toLowerCase().replace(/\b\w/g,x=>x.toUpperCase())
-async function action(url:string,body?:object){const response=await fetch(root+url,{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify(body||{})});const d=await response.json().catch(()=>({}));if(!response.ok)throw Error(d.error||`Action failed (${response.status})`);return d}
-function Eye(){return <svg width="20" height="20" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>}
-function Back(){return <svg width="22" height="22" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7M5 12h14"/></svg>}
-function Logo({id,name}:{id:string;name:string}){const [failed,setFailed]=useState(false);return <span style={{display:'inline-flex',height:42,width:42,minWidth:42,borderRadius:'50%',overflow:'hidden',alignItems:'center',justifyContent:'center',background:'#105321',color:'white',fontWeight:700}}>{!failed?<img alt={`${name} logo`} loading="lazy" src={`/api/osas/organizations/${id}/photo`} onError={()=>setFailed(true)} style={{width:'100%',height:'100%',objectFit:'cover'}}/>:name.split(/\s+/).map(x=>x[0]).slice(0,2).join('')}</span>}
-function CommentIcon(){return <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>}
-export default function OsasFinancialStatementsPage(){
- const [reports,setReports]=useState<Statement[]>([]),[archive,setArchive]=useState<Archive[]>([]),[selected,setSelected]=useState(''),[detail,setDetail]=useState<Detail|null>(null),[archiveId,setArchiveId]=useState(''),[archived,setArchived]=useState<ArchivedDetail|null>(null)
- const [mode,setMode]=useState<'review'|'repository'>('review'),[search,setSearch]=useState(''),[college,setCollege]=useState('All Colleges'),[year,setYear]=useState('Current Academic Year'),[status,setStatus]=useState('All'),[tab,setTab]=useState<Flow>('INFLOW'),[schedule,setSchedule]=useState<string|null>(null)
- const [commentOpen,setCommentOpen]=useState(false),[comment,setComment]=useState(''),[busy,setBusy]=useState(false),[loading,setLoading]=useState(false),[error,setError]=useState(''),[notice,setNotice]=useState('')
- const reload=useCallback(async()=>{const [r,a]=await Promise.all([osasGet<Statement[]>(root+'/statements'),osasGet<Archive[]>(root+'/repository')]);setReports(r);setArchive(a)},[])
- const refreshDetail=useCallback(async(id:string)=>{setDetail(await osasGet<Detail>(root+`/statements/${id}`))},[])
- useEffect(()=>{void reload().catch(e=>setError(e instanceof Error?e.message:'Unable to load financial statements'))},[reload])
- useEffect(()=>{if(!selected)return;setLoading(true);void refreshDetail(selected).catch(e=>setError(e.message)).finally(()=>setLoading(false))},[selected,refreshDetail])
- useEffect(()=>{if(!archiveId)return;setLoading(true);void osasGet<ArchivedDetail>(root+`/repository/${archiveId}`).then(setArchived).catch(e=>setError(e.message)).finally(()=>setLoading(false))},[archiveId])
- useEffect(()=>{const onFocus=()=>{void reload().catch(()=>{});if(selected)void refreshDetail(selected).catch(()=>{})};window.addEventListener('focus',onFocus);return()=>window.removeEventListener('focus',onFocus)},[reload,refreshDetail,selected])
- const selectedRecord=archived?.snapshot||detail
- const entries=selectedRecord?.entries||[],schedules=selectedRecord?.schedules||[]
- const sum=(f:'INFLOW'|'OUTFLOW',semester?:number)=>entries.filter(e=>schedules.some(s=>s.id===e.schedule_id&&s.cash_flow_type===f&&(semester===undefined||s.semester===semester))).reduce((n,e)=>n+Number(e.amount||0),0)
- const inflow=sum('INFLOW'),outflow=sum('OUTFLOW')
- const currentYear=reports[0]?.current_academic_year||'2026-2027'
- const dataset=mode==='review'?reports:archive
- const colleges=Array.from(new Set([...reports.map(r=>r.college),...archive.map(r=>r.college)])).sort()
- const years=Array.from(new Set([...reports.map(r=>r.academic_year),...archive.map(r=>r.academic_year)])).sort().reverse()
- const filtered=useMemo(()=>dataset.filter(r=>{const text=(r.organization_name+' '+r.college+' '+r.reference_number).toLowerCase();return text.includes(search.toLowerCase())&&(college==='All Colleges'||r.college===college)&&(year==='All Academic Years'||r.academic_year===(year==='Current Academic Year'?currentYear:year))&&(mode==='repository'||status==='All'||(r as Statement).status===status.toUpperCase())}),[dataset,search,college,year,status,currentYear,mode])
- const perform=async(url:string,body?:object)=>{setBusy(true);setError('');setNotice('');try{await action(url,body);await reload();if(selected)await refreshDetail(selected);setNotice(url.endsWith('/return')?'Statement returned for revision':url.endsWith('/approve')?'Statement approved and archived':'Comment sent');if(url.endsWith('/approve')){setSelected('');setDetail(null)}if(url.endsWith('/comments'))setComment('')}catch(e){setError(e instanceof Error?e.message:'Action failed')}finally{setBusy(false)}}
- const close=()=>{setSelected('');setArchiveId('');setDetail(null);setArchived(null);setSchedule(null);setTab('INFLOW');setCommentOpen(false)}
- const attachmentHref=(a:Attachment)=>archiveId?root+`/repository/${archiveId}/files/${archived?.files.find(f=>f.source_attachment_id===a.id)?.id||''}`:root+`/statements/${selected}/attachments/${a.id}`
- const comments=<section className="fs-section" style={{marginTop:20}}><button type="button" className="fs-comment-toggle" onClick={()=>setCommentOpen(v=>!v)} aria-expanded={commentOpen}><CommentIcon/> <span>Comments ({detail?.comments.length||0})</span> <span>{commentOpen?'⌃':'⌄'}</span></button>{commentOpen&&<div className="fs-comment-body">{detail?.review_timeline?.returned_at&&<p className="fs-review-event">↩ Returned for revision · {stamp(detail.review_timeline.returned_at)}</p>}{!detail?.comments.length&&<small>No comments yet.</small>}{detail?.comments.map(c=><div className="fs-comment-item" key={c.id}><strong>{c.sender}</strong><small>{stamp(c.created_at)}</small><div>{c.comment_text}</div></div>)}{detail?.statement.status!=='APPROVED'&&<div className="fs-comment-compose"><textarea aria-label="New comment" placeholder="Write a comment..." value={comment} onChange={e=>setComment(e.target.value)} rows={2}/><button className="fs-primary" disabled={busy||!comment.trim()} onClick={()=>void perform(`/statements/${selected}/comments`,{comment})}>Send</button></div>}</div>}</section>
- return <main className="fs-page">
- <h1 className="fs-page-title">Financial Statements</h1><p className="fs-hint">Review the organization's financial schedules, transactions, receipts, and summary.</p>
- {error&&<p role="alert" style={{color:'#b32222'}}>{error}</p>}{notice&&<p role="status" style={{color:'#126734'}}>{notice}</p>}
- {!selected&&!archiveId?<>
- <div className="fs-tabs"><button className={mode==='review'?'active':''} onClick={()=>{setMode('review');setStatus('All')}}>Statements for Review</button><button className={mode==='repository'?'active':''} onClick={()=>setMode('repository')}>Approved Repository</button></div>
- <div className="fs-filters"><input aria-label="Search organizations" placeholder="Search organizations or colleges..." value={search} onChange={e=>setSearch(e.target.value)}/><select aria-label="College" value={college} onChange={e=>setCollege(e.target.value)}><option>All Colleges</option>{colleges.map(c=><option key={c}>{c}</option>)}</select><select aria-label="Academic Year" value={year} onChange={e=>setYear(e.target.value)}><option>Current Academic Year</option><option>All Academic Years</option>{years.map(y=><option key={y}>{y}</option>)}</select></div>
- {mode==='review'&&<div className="fs-tabs">{['All','Submitted','Returned','Approved'].map(s=><button key={s} className={status===s?'active':''} onClick={()=>setStatus(s)}>{s}</button>)}</div>}
- <div className="fs-table-wrap"><table className="fs-table"><thead><tr><th>Organization</th><th>College</th><th>Academic Year</th><th>Cash on Hand</th><th>Status</th><th>Action</th></tr></thead><tbody>{filtered.map(r=><tr key={r.id}><td><div style={{display:'flex',alignItems:'center',gap:12}}><Logo id={mode==='review'?(r as Statement).organization_id:(r as Archive).organization_id} name={r.organization_name}/><span>{r.organization_name}</span></div></td><td>{r.college}</td><td>{r.academic_year}</td><td>View summary</td><td>{mode==='review'?nameStatus((r as Statement).status):'Approved'}</td><td><button type="button" className="fs-action-icon" title="View Financial Statement" aria-label={`View ${r.organization_name}`} onClick={()=>{setError('');if(mode==='review')setSelected(r.id);else setArchiveId(r.id)}}><Eye/></button></td></tr>)}{!filtered.length&&<tr><td colSpan={6}>No matching financial statements.</td></tr>}</tbody></table></div></>:
- <>{loading&&!selectedRecord?<p>Loading report...</p>:selectedRecord&&<>
- <div className="fs-report-header"><button className="fs-back" aria-label="Back to financial statements" title="Back" onClick={close}><Back/></button><div><h2>{archiveId?'Approved Financial Statement':detail?.organization.organization_name||'Financial Statement'}</h2><p>Academic Year {selectedRecord.statement.academic_year} · {nameStatus(selectedRecord.statement.status)}</p></div></div>
- <div className="fs-tabs">{(['INFLOW','OUTFLOW','SUMMARY'] as const).map(t=><button key={t} className={tab===t?'active':''} onClick={()=>{setTab(t);setSchedule(null)}}>{t==='INFLOW'?'Cash Inflows':t==='OUTFLOW'?'Cash Outflows':'Summary'}</button>)}</div>
- {tab!=='SUMMARY'?([1,2] as const).map(sem=><section className="fs-section" key={sem}><h3>{sem===1?'First':'Second'} Semester</h3><table className="fs-table"><thead><tr><th>Schedule</th><th>Title</th><th className="fs-num">Amount</th><th>View</th></tr></thead><tbody>{schedules.filter(s=>s.semester===sem&&s.cash_flow_type===tab).map(s=><tr key={s.id}><td>{s.schedule_code}</td><td>{s.schedule_title}</td><td className="fs-num">{peso(entries.filter(e=>e.schedule_id===s.id).reduce((n,e)=>n+Number(e.amount),0))}</td><td><button className="fs-action-icon" aria-label={`View ${s.schedule_title}`} title="View schedule" onClick={()=>setSchedule(s.id)}><Eye/></button></td></tr>)}<tr className="fs-total"><td colSpan={2}>Semester Total</td><td className="fs-num">{peso(sum(tab as 'INFLOW'|'OUTFLOW',sem))}</td><td/></tr></tbody></table></section>):<section className="fs-section"><h3>Financial Summary</h3><table className="fs-table"><thead><tr><th>Category</th><th className="fs-num">First Semester</th><th className="fs-num">Second Semester</th><th className="fs-num">Total</th></tr></thead><tbody>{(['INFLOW','OUTFLOW'] as const).map(f=><tr key={f}><td>{f==='INFLOW'?'Cash Inflows':'Cash Outflows'}</td><td className="fs-num">{peso(sum(f,1))}</td><td className="fs-num">{peso(sum(f,2))}</td><td className="fs-num">{peso(sum(f))}</td></tr>)}<tr className="fs-total"><td>Cash on Hand</td><td className="fs-num">{peso(sum('INFLOW',1)-sum('OUTFLOW',1))}</td><td className="fs-num">{peso(sum('INFLOW',2)-sum('OUTFLOW',2))}</td><td className="fs-num">{peso(inflow-outflow)}</td></tr></tbody></table><h3>Outstanding Collectibles</h3><table className="fs-table"><thead><tr><th>Description</th><th className="fs-num">Due</th><th className="fs-num">Received</th></tr></thead><tbody>{selectedRecord.collectibles.map(c=><tr key={c.id}><td>{c.description}</td><td className="fs-num">{peso(Number(c.amount_due))}</td><td className="fs-num">{peso(Number(c.amount_received))}</td></tr>)}{!selectedRecord.collectibles.length&&<tr><td colSpan={3}>No collectibles.</td></tr>}</tbody></table></section>}
- {archiveId?<p className="fs-hint">Approved copy stored in the OSAS repository. Original submission and archived receipts are read-only.</p>:<>{comments}{detail?.statement.status==='SUBMITTED'&&<div className="fs-actions" style={{justifyContent:'flex-end'}}><button disabled={busy} onClick={()=>{if(window.confirm('Return this financial statement for revision?'))void perform(`/statements/${selected}/return`)}}>Return for Revision</button><button className="fs-primary" disabled={busy} onClick={()=>{if(window.confirm('Approve and permanently archive this financial statement?'))void perform(`/statements/${selected}/approve`)}}>Approve Statement</button></div>}</>}
- {schedule&&(()=>{const s=schedules.find(s=>s.id===schedule);if(!s)return null;return <div className="fs-overlay" role="presentation" onMouseDown={e=>{if(e.target===e.currentTarget)setSchedule(null)}}><div className="fs-modal fs-large" role="dialog" aria-modal="true" aria-label="Schedule details"><div className="fs-modal-heading"><h2>Schedule {s.schedule_code} — {s.schedule_title}</h2><button type="button" className="fs-action-icon" onClick={()=>setSchedule(null)} aria-label="Close">✕</button></div><p>{s.description}</p><table className="fs-table"><thead><tr><th>Date</th><th>Description</th><th>Receipt No.</th><th className="fs-num">Quantity</th><th className="fs-num">Unit Price</th><th className="fs-num">Amount</th><th>Receipts</th></tr></thead><tbody>{entries.filter(e=>e.schedule_id===s.id).map(e=><tr key={e.id}><td>{String(e.entry_date).slice(0,10)}</td><td>{e.description}</td><td>{e.receipt_number||'—'}</td><td className="fs-num">{e.quantity??'—'}</td><td className="fs-num">{e.unit_price==null?'—':peso(Number(e.unit_price))}</td><td className="fs-num">{peso(Number(e.amount))}</td><td>{selectedRecord.attachments.filter(a=>a.entry_id===e.id).map(a=><a key={a.id} href={attachmentHref(a)} target="_blank" rel="noreferrer" style={{display:'block'}}>{a.file_name}</a>)}</td></tr>)}</tbody></table><h3>Supporting Documents</h3>{selectedRecord.attachments.filter(a=>a.schedule_id===s.id).map(a=><div key={a.id}><a href={attachmentHref(a)} target="_blank" rel="noreferrer">{a.file_name}</a></div>)}<div className="fs-actions"><button onClick={()=>setSchedule(null)}>Close</button></div></div></div>})()}
- </>}</>}
- </main>
+type Statement = {
+  id: string;
+  organization_id: string;
+  organization_name: string;
+  college: string;
+  academic_year: string;
+  current_academic_year: string;
+  reference_number: string | null;
+  status: string;
+  submitted_at: string | null;
+};
+type Schedule = {
+  id: string;
+  schedule_code: string;
+  schedule_title: string;
+  cash_flow_type: "INFLOW" | "OUTFLOW";
+  semester: number;
+  description: string | null;
+};
+type Entry = {
+  id: string;
+  schedule_id: string;
+  entry_date: string;
+  description: string;
+  receipt_number: string | null;
+  quantity: number | null;
+  unit_price: number | null;
+  amount: number;
+  notes: string | null;
+};
+type Collectible = {
+  id: string;
+  debtor_name: string | null;
+  description: string;
+  amount_due: number;
+  amount_received: number;
+  due_date: string | null;
+};
+type Attachment = {
+  id: string;
+  schedule_id: string | null;
+  entry_id: string | null;
+  file_name: string;
+  mime_type: string;
+  file_kind: string;
+};
+type Comment = {
+  id: string;
+  comment_text: string;
+  sender: string;
+  created_at: string;
+};
+type Detail = {
+  statement: Statement;
+  organization: { organization_name: string; college: string };
+  schedules: Schedule[];
+  entries: Entry[];
+  collectibles: Collectible[];
+  attachments: Attachment[];
+  comments: Comment[];
+  review_timeline?: { returned_at: string | null; reviewed_at: string | null };
+};
+type Archive = {
+  id: string;
+  organization_name: string;
+  college: string;
+  organization_id: string;
+  academic_year: string;
+  approved_at: string;
+  reference_number: string;
+};
+type ArchivedDetail = {
+  snapshot: {
+    statement: Statement;
+    schedules: Schedule[];
+    entries: Entry[];
+    collectibles: Collectible[];
+    attachments: Attachment[];
+  };
+  files: {
+    id: string;
+    original_filename: string;
+    source_attachment_id: string;
+  }[];
+  approved_at: string;
+};
+type Flow = "INFLOW" | "OUTFLOW" | "SUMMARY";
+const root = "/api/osas/fs";
+const peso = (x: number) =>
+  new Intl.NumberFormat("en-PH", { style: "currency", currency: "PHP" }).format(
+    x,
+  );
+const stamp = (s: string | null | undefined) =>
+  s ? new Date(s).toLocaleString("en-PH") : "—";
+const nameStatus = (s: string) =>
+  s.toLowerCase().replace(/\b\w/g, (x) => x.toUpperCase());
+async function action(url: string, body?: object) {
+  const response = await fetch(root + url, {
+    method: "POST",
+    credentials: "same-origin",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body || {}),
+  });
+  const d = await response.json().catch(() => ({}));
+  if (!response.ok)
+    throw Error(d.error || `Action failed (${response.status})`);
+  return d;
+}
+function Eye() {
+  return (
+    <svg
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth="2"
+      fill="none"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7Z" />
+      <circle cx="12" cy="12" r="3" />
+    </svg>
+  );
+}
+function Back() {
+  return (
+    <svg
+      width="22"
+      height="22"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth="2"
+      fill="none"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="m12 19-7-7 7-7M5 12h14" />
+    </svg>
+  );
+}
+function Logo({ id, name }: { id: string; name: string }) {
+  const [failed, setFailed] = useState(false);
+  return (
+    <span
+      style={{
+        display: "inline-flex",
+        height: 42,
+        width: 42,
+        minWidth: 42,
+        borderRadius: "50%",
+        overflow: "hidden",
+        alignItems: "center",
+        justifyContent: "center",
+        background: "#105321",
+        color: "white",
+        fontWeight: 700,
+      }}
+    >
+      {!failed ? (
+        <img
+          alt={`${name} logo`}
+          loading="lazy"
+          src={`/api/osas/organizations/${id}/photo`}
+          onError={() => setFailed(true)}
+          style={{ width: "100%", height: "100%", objectFit: "cover" }}
+        />
+      ) : (
+        name
+          .split(/\s+/)
+          .map((x) => x[0])
+          .slice(0, 2)
+          .join("")
+      )}
+    </span>
+  );
+}
+function CommentIcon() {
+  return (
+    <svg
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+    </svg>
+  );
+}
+export default function OsasFinancialStatementsPage() {
+  const [reports, setReports] = useState<Statement[]>([]),
+    [archive, setArchive] = useState<Archive[]>([]),
+    [selected, setSelected] = useState(""),
+    [detail, setDetail] = useState<Detail | null>(null),
+    [archiveId, setArchiveId] = useState(""),
+    [archived, setArchived] = useState<ArchivedDetail | null>(null);
+  const [mode, setMode] = useState<"review" | "repository">("review"),
+    [search, setSearch] = useState(""),
+    [college, setCollege] = useState("All Colleges"),
+    [year, setYear] = useState("Current Academic Year"),
+    [status, setStatus] = useState("All"),
+    [tab, setTab] = useState<Flow>("INFLOW"),
+    [schedule, setSchedule] = useState<string | null>(null);
+  const [commentOpen, setCommentOpen] = useState(false),
+    [comment, setComment] = useState(""),
+    [busy, setBusy] = useState(false),
+    [loading, setLoading] = useState(false),
+    [error, setError] = useState(""),
+    [notice, setNotice] = useState("");
+  const reload = useCallback(async () => {
+    const [r, a] = await Promise.all([
+      osasGet<Statement[]>(root + "/statements"),
+      osasGet<Archive[]>(root + "/repository"),
+    ]);
+    setReports(r);
+    setArchive(a);
+  }, []);
+  const refreshDetail = useCallback(async (id: string) => {
+    setDetail(await osasGet<Detail>(root + `/statements/${id}`));
+  }, []);
+  useEffect(() => {
+    void reload().catch((e) =>
+      setError(
+        e instanceof Error ? e.message : "Unable to load financial statements",
+      ),
+    );
+  }, [reload]);
+  useEffect(() => {
+    if (!selected) return;
+    setLoading(true);
+    void refreshDetail(selected)
+      .catch((e) => setError(e.message))
+      .finally(() => setLoading(false));
+  }, [selected, refreshDetail]);
+  useEffect(() => {
+    if (!archiveId) return;
+    setLoading(true);
+    void osasGet<ArchivedDetail>(root + `/repository/${archiveId}`)
+      .then(setArchived)
+      .catch((e) => setError(e.message))
+      .finally(() => setLoading(false));
+  }, [archiveId]);
+  useEffect(() => {
+    const onFocus = () => {
+      void reload().catch(() => {});
+      if (selected) void refreshDetail(selected).catch(() => {});
+    };
+    window.addEventListener("focus", onFocus);
+    return () => window.removeEventListener("focus", onFocus);
+  }, [reload, refreshDetail, selected]);
+  const selectedRecord = archived?.snapshot || detail;
+  const entries = selectedRecord?.entries || [],
+    schedules = selectedRecord?.schedules || [];
+  const sum = (f: "INFLOW" | "OUTFLOW", semester?: number) =>
+    entries
+      .filter((e) =>
+        schedules.some(
+          (s) =>
+            s.id === e.schedule_id &&
+            s.cash_flow_type === f &&
+            (semester === undefined || s.semester === semester),
+        ),
+      )
+      .reduce((n, e) => n + Number(e.amount || 0), 0);
+  const inflow = sum("INFLOW"),
+    outflow = sum("OUTFLOW");
+  const currentYear = reports[0]?.current_academic_year || "2026-2027";
+  const dataset = mode === "review" ? reports : archive;
+  const colleges = Array.from(
+    new Set([
+      ...reports.map((r) => r.college),
+      ...archive.map((r) => r.college),
+    ]),
+  ).sort();
+  const years = Array.from(
+    new Set([
+      ...reports.map((r) => r.academic_year),
+      ...archive.map((r) => r.academic_year),
+    ]),
+  )
+    .sort()
+    .reverse();
+  const filtered = useMemo(
+    () =>
+      dataset.filter((r) => {
+        const text = (
+          r.organization_name +
+          " " +
+          r.college +
+          " " +
+          r.reference_number
+        ).toLowerCase();
+        return (
+          text.includes(search.toLowerCase()) &&
+          (college === "All Colleges" || r.college === college) &&
+          (year === "All Academic Years" ||
+            r.academic_year ===
+              (year === "Current Academic Year" ? currentYear : year)) &&
+          (mode === "repository" ||
+            status === "All" ||
+            (r as Statement).status === status.toUpperCase())
+        );
+      }),
+    [dataset, search, college, year, status, currentYear, mode],
+  );
+  const perform = async (url: string, body?: object) => {
+    setBusy(true);
+    setError("");
+    setNotice("");
+    try {
+      await action(url, body);
+      await reload();
+      if (selected) await refreshDetail(selected);
+      setNotice(
+        url.endsWith("/return")
+          ? "Statement returned for revision"
+          : url.endsWith("/approve")
+            ? "Statement approved and archived"
+            : "Comment sent",
+      );
+      if (url.endsWith("/approve")) {
+        setSelected("");
+        setDetail(null);
+      }
+      if (url.endsWith("/comments")) setComment("");
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Action failed");
+    } finally {
+      setBusy(false);
+    }
+  };
+  const close = () => {
+    setSelected("");
+    setArchiveId("");
+    setDetail(null);
+    setArchived(null);
+    setSchedule(null);
+    setTab("INFLOW");
+    setCommentOpen(false);
+  };
+  const attachmentHref = (a: Attachment) =>
+    archiveId
+      ? root +
+        `/repository/${archiveId}/files/${archived?.files.find((f) => f.source_attachment_id === a.id)?.id || ""}`
+      : root + `/statements/${selected}/attachments/${a.id}`;
+  const comments = (
+    <section className="fs-section" style={{ marginTop: 20 }}>
+      <button
+        type="button"
+        className="fs-comment-toggle"
+        onClick={() => setCommentOpen((v) => !v)}
+        aria-expanded={commentOpen}
+      >
+        <CommentIcon /> <span>Comments ({detail?.comments.length || 0})</span>{" "}
+        <span>{commentOpen ? "⌃" : "⌄"}</span>
+      </button>
+      {commentOpen && (
+        <div className="fs-comment-body">
+          {detail?.review_timeline?.returned_at && (
+            <p className="fs-review-event">
+              ↩ Returned for revision ·{" "}
+              {stamp(detail.review_timeline.returned_at)}
+            </p>
+          )}
+          {!detail?.comments.length && <small>No comments yet.</small>}
+          {detail?.comments.map((c) => (
+            <div className="fs-comment-item" key={c.id}>
+              <strong>{c.sender}</strong>
+              <small>{stamp(c.created_at)}</small>
+              <div>{c.comment_text}</div>
+            </div>
+          ))}
+          {detail?.statement.status !== "APPROVED" && (
+            <div className="fs-comment-compose">
+              <textarea
+                aria-label="New comment"
+                placeholder="Write a comment..."
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+                rows={2}
+              />
+              <button
+                className="fs-primary"
+                disabled={busy || !comment.trim()}
+                onClick={() =>
+                  void perform(`/statements/${selected}/comments`, { comment })
+                }
+              >
+                Send
+              </button>
+            </div>
+          )}
+        </div>
+      )}
+    </section>
+  );
+  return (
+    <main className="fs-page osas-page osas-review-page">
+      <h1>Financial Statements</h1>
+      <p className="osas-review-subtitle">
+        Review the organization's financial schedules, transactions, receipts,
+        and summary.
+      </p>
+      {error && (
+        <p role="alert" style={{ color: "#b32222" }}>
+          {error}
+        </p>
+      )}
+      {notice && (
+        <p role="status" style={{ color: "#126734" }}>
+          {notice}
+        </p>
+      )}
+      {!selected && !archiveId ? (
+        <>
+          <div className="osas-review-tabs">
+            <button
+              className={mode === "review" ? "active" : ""}
+              onClick={() => {
+                setMode("review");
+                setStatus("All");
+              }}
+            >
+              Statements for Review
+            </button>
+            <button
+              className={mode === "repository" ? "active" : ""}
+              onClick={() => {
+                setMode("repository");
+                setYear("All Academic Years");
+              }}
+            >
+              Approved Repository
+            </button>
+          </div>
+          <div className="osas-review-filters">
+            <input
+              aria-label="Search organizations"
+              placeholder="Search organizations or colleges..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            <select
+              aria-label="College"
+              value={college}
+              onChange={(e) => setCollege(e.target.value)}
+            >
+              <option>All Colleges</option>
+              {colleges.map((c) => (
+                <option key={c}>{c}</option>
+              ))}
+            </select>
+            <select
+              aria-label="Academic Year"
+              value={year}
+              onChange={(e) => setYear(e.target.value)}
+            >
+              <option>Current Academic Year</option>
+              <option>All Academic Years</option>
+              {years.map((y) => (
+                <option key={y}>{y}</option>
+              ))}
+            </select>
+          </div>
+          {mode === "review" && (
+            <div className="osas-review-tabs osas-review-status-tabs">
+              {["All", "Submitted", "Returned", "Approved"].map((s) => (
+                <button
+                  key={s}
+                  className={status === s ? "active" : ""}
+                  onClick={() => setStatus(s)}
+                >
+                  {s}
+                </button>
+              ))}
+            </div>
+          )}
+          {mode === "repository" ? (
+            <ApprovedArchiveBrowser
+              records={archive}
+              onOpen={setArchiveId}
+              label="financial statements"
+              search={search}
+              college={college}
+              academicYear={year}
+            />
+          ) : (
+            <div className="osas-table-scroll">
+              <table className="osas-table">
+                <thead>
+                  <tr>
+                    <th>Organization</th>
+                    <th>College</th>
+                    <th>Academic Year</th>
+                    <th>Cash on Hand</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filtered.map((r) => (
+                    <tr
+                      key={r.id}
+                      className="osas-clickable-review"
+                      tabIndex={0}
+                      role="button"
+                      aria-label={`Open financial statement for ${r.organization_name}`}
+                      onClick={() => {
+                        setError("");
+                        if (mode === "review") setSelected(r.id);
+                        else setArchiveId(r.id);
+                      }}
+                      onKeyDown={(event) => {
+                        if (event.key === "Enter" || event.key === " ") {
+                          event.preventDefault();
+                          setError("");
+                          if (mode === "review") setSelected(r.id);
+                          else setArchiveId(r.id);
+                        }
+                      }}
+                    >
+                      <td>
+                        <div
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 12,
+                          }}
+                        >
+                          <Logo
+                            id={
+                              mode === "review"
+                                ? (r as Statement).organization_id
+                                : (r as Archive).organization_id
+                            }
+                            name={r.organization_name}
+                          />
+                          <span>{r.organization_name}</span>
+                        </div>
+                      </td>
+                      <td>{r.college}</td>
+                      <td>{r.academic_year}</td>
+                      <td>View summary</td>
+                      <td>
+                        {mode === "review"
+                          ? nameStatus((r as Statement).status)
+                          : "Approved"}
+                      </td>
+                    </tr>
+                  ))}
+                  {!filtered.length && (
+                    <tr>
+                      <td colSpan={5}>No matching financial statements.</td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </>
+      ) : (
+        <>
+          {loading && !selectedRecord ? (
+            <p>Loading report...</p>
+          ) : (
+            selectedRecord && (
+              <>
+                <div className="fs-report-header">
+                  <button
+                    className="fs-back"
+                    aria-label="Back to financial statements"
+                    title="Back"
+                    onClick={close}
+                  >
+                    <Back />
+                  </button>
+                  <div>
+                    <h2>
+                      {archiveId
+                        ? "Approved Financial Statement"
+                        : detail?.organization.organization_name ||
+                          "Financial Statement"}
+                    </h2>
+                    <p>
+                      Academic Year {selectedRecord.statement.academic_year} ·{" "}
+                      {nameStatus(selectedRecord.statement.status)}
+                    </p>
+                  </div>
+                </div>
+                <div className="fs-tabs">
+                  {(["INFLOW", "OUTFLOW", "SUMMARY"] as const).map((t) => (
+                    <button
+                      key={t}
+                      className={tab === t ? "active" : ""}
+                      onClick={() => {
+                        setTab(t);
+                        setSchedule(null);
+                      }}
+                    >
+                      {t === "INFLOW"
+                        ? "Cash Inflows"
+                        : t === "OUTFLOW"
+                          ? "Cash Outflows"
+                          : "Summary"}
+                    </button>
+                  ))}
+                </div>
+                {tab !== "SUMMARY" ? (
+                  ([1, 2] as const).map((sem) => (
+                    <section className="fs-section" key={sem}>
+                      <h3>{sem === 1 ? "First" : "Second"} Semester</h3>
+                      <table className="fs-table">
+                        <thead>
+                          <tr>
+                            <th>Schedule</th>
+                            <th>Title</th>
+                            <th className="fs-num">Amount</th>
+                            <th>View</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {schedules
+                            .filter(
+                              (s) =>
+                                s.semester === sem && s.cash_flow_type === tab,
+                            )
+                            .map((s) => (
+                              <tr key={s.id}>
+                                <td>{s.schedule_code}</td>
+                                <td>{s.schedule_title}</td>
+                                <td className="fs-num">
+                                  {peso(
+                                    entries
+                                      .filter((e) => e.schedule_id === s.id)
+                                      .reduce(
+                                        (n, e) => n + Number(e.amount),
+                                        0,
+                                      ),
+                                  )}
+                                </td>
+                                <td>
+                                  <button
+                                    className="fs-action-icon"
+                                    aria-label={`View ${s.schedule_title}`}
+                                    title="View schedule"
+                                    onClick={() => setSchedule(s.id)}
+                                  >
+                                    <Eye />
+                                  </button>
+                                </td>
+                              </tr>
+                            ))}
+                          <tr className="fs-total">
+                            <td colSpan={2}>Semester Total</td>
+                            <td className="fs-num">
+                              {peso(sum(tab as "INFLOW" | "OUTFLOW", sem))}
+                            </td>
+                            <td />
+                          </tr>
+                        </tbody>
+                      </table>
+                    </section>
+                  ))
+                ) : (
+                  <section className="fs-section">
+                    <h3>Financial Summary</h3>
+                    <table className="fs-table">
+                      <thead>
+                        <tr>
+                          <th>Category</th>
+                          <th className="fs-num">First Semester</th>
+                          <th className="fs-num">Second Semester</th>
+                          <th className="fs-num">Total</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {(["INFLOW", "OUTFLOW"] as const).map((f) => (
+                          <tr key={f}>
+                            <td>
+                              {f === "INFLOW"
+                                ? "Cash Inflows"
+                                : "Cash Outflows"}
+                            </td>
+                            <td className="fs-num">{peso(sum(f, 1))}</td>
+                            <td className="fs-num">{peso(sum(f, 2))}</td>
+                            <td className="fs-num">{peso(sum(f))}</td>
+                          </tr>
+                        ))}
+                        <tr className="fs-total">
+                          <td>Cash on Hand</td>
+                          <td className="fs-num">
+                            {peso(sum("INFLOW", 1) - sum("OUTFLOW", 1))}
+                          </td>
+                          <td className="fs-num">
+                            {peso(sum("INFLOW", 2) - sum("OUTFLOW", 2))}
+                          </td>
+                          <td className="fs-num">{peso(inflow - outflow)}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <h3>Outstanding Collectibles</h3>
+                    <table className="fs-table">
+                      <thead>
+                        <tr>
+                          <th>Description</th>
+                          <th className="fs-num">Due</th>
+                          <th className="fs-num">Received</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {selectedRecord.collectibles.map((c) => (
+                          <tr key={c.id}>
+                            <td>{c.description}</td>
+                            <td className="fs-num">
+                              {peso(Number(c.amount_due))}
+                            </td>
+                            <td className="fs-num">
+                              {peso(Number(c.amount_received))}
+                            </td>
+                          </tr>
+                        ))}
+                        {!selectedRecord.collectibles.length && (
+                          <tr>
+                            <td colSpan={3}>No collectibles.</td>
+                          </tr>
+                        )}
+                      </tbody>
+                    </table>
+                  </section>
+                )}
+                {archiveId ? (
+                  <p className="fs-hint">
+                    Approved copy stored in the OSAS repository. Original
+                    submission and archived receipts are read-only.
+                  </p>
+                ) : (
+                  <>
+                    {comments}
+                    {detail?.statement.status === "SUBMITTED" && (
+                      <div
+                        className="fs-actions"
+                        style={{ justifyContent: "flex-end" }}
+                      >
+                        <button
+                          disabled={busy}
+                          onClick={() => {
+                            if (
+                              window.confirm(
+                                "Return this financial statement for revision?",
+                              )
+                            )
+                              void perform(`/statements/${selected}/return`);
+                          }}
+                        >
+                          Return for Revision
+                        </button>
+                        <button
+                          className="fs-primary"
+                          disabled={busy}
+                          onClick={() => {
+                            if (
+                              window.confirm(
+                                "Approve and permanently archive this financial statement?",
+                              )
+                            )
+                              void perform(`/statements/${selected}/approve`);
+                          }}
+                        >
+                          Approve Statement
+                        </button>
+                      </div>
+                    )}
+                  </>
+                )}
+                {schedule &&
+                  (() => {
+                    const s = schedules.find((s) => s.id === schedule);
+                    if (!s) return null;
+                    return (
+                      <div
+                        className="fs-overlay"
+                        role="presentation"
+                        onMouseDown={(e) => {
+                          if (e.target === e.currentTarget) setSchedule(null);
+                        }}
+                      >
+                        <div
+                          className="fs-modal fs-large"
+                          role="dialog"
+                          aria-modal="true"
+                          aria-label="Schedule details"
+                        >
+                          <div className="fs-modal-heading">
+                            <h2>
+                              Schedule {s.schedule_code} — {s.schedule_title}
+                            </h2>
+                            <button
+                              type="button"
+                              className="fs-action-icon"
+                              onClick={() => setSchedule(null)}
+                              aria-label="Close"
+                            >
+                              ✕
+                            </button>
+                          </div>
+                          <p>{s.description}</p>
+                          <table className="fs-table">
+                            <thead>
+                              <tr>
+                                <th>Date</th>
+                                <th>Description</th>
+                                <th>Receipt No.</th>
+                                <th className="fs-num">Quantity</th>
+                                <th className="fs-num">Unit Price</th>
+                                <th className="fs-num">Amount</th>
+                                <th>Receipts</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {entries
+                                .filter((e) => e.schedule_id === s.id)
+                                .map((e) => (
+                                  <tr key={e.id}>
+                                    <td>{String(e.entry_date).slice(0, 10)}</td>
+                                    <td>{e.description}</td>
+                                    <td>{e.receipt_number || "—"}</td>
+                                    <td className="fs-num">
+                                      {e.quantity ?? "—"}
+                                    </td>
+                                    <td className="fs-num">
+                                      {e.unit_price == null
+                                        ? "—"
+                                        : peso(Number(e.unit_price))}
+                                    </td>
+                                    <td className="fs-num">
+                                      {peso(Number(e.amount))}
+                                    </td>
+                                    <td>
+                                      {selectedRecord.attachments
+                                        .filter((a) => a.entry_id === e.id)
+                                        .map((a) => (
+                                          <a
+                                            key={a.id}
+                                            href={attachmentHref(a)}
+                                            target="_blank"
+                                            rel="noreferrer"
+                                            style={{ display: "block" }}
+                                          >
+                                            {a.file_name}
+                                          </a>
+                                        ))}
+                                    </td>
+                                  </tr>
+                                ))}
+                            </tbody>
+                          </table>
+                          <h3>Supporting Documents</h3>
+                          {selectedRecord.attachments
+                            .filter((a) => a.schedule_id === s.id)
+                            .map((a) => (
+                              <div key={a.id}>
+                                <a
+                                  href={attachmentHref(a)}
+                                  target="_blank"
+                                  rel="noreferrer"
+                                >
+                                  {a.file_name}
+                                </a>
+                              </div>
+                            ))}
+                          <div className="fs-actions">
+                            <button onClick={() => setSchedule(null)}>
+                              Close
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })()}
+              </>
+            )
+          )}
+        </>
+      )}
+    </main>
+  );
 }

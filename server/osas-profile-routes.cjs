@@ -1,7 +1,7 @@
 const express = require('express')
 const crypto = require('node:crypto')
 const path = require('node:path')
-const fs = require('node:fs/promises')
+const fs = require('./storage-files.cjs')
 
 // Add this router to your CURRENT server/index.cjs (do not replace the entire backend).
 module.exports = function createOsasProfileRoutes(pool, requireOsas, checkOrigin, accountLimiter, uploadDirectory) {
@@ -13,7 +13,7 @@ module.exports = function createOsasProfileRoutes(pool, requireOsas, checkOrigin
       const name=r.rows[0]?.profile_photo_path
       if(!name||!/^[a-f0-9-]{36}\.(jpg|png|webp)$/.test(name))return res.sendStatus(404)
       res.set('Cache-Control','no-store')
-      return res.sendFile(path.join(uploadDirectory,name))
+      return await fs.send(res,path.join(uploadDirectory,name))
     }catch(e){console.error('OSAS photo read:',e.message);return res.sendStatus(404)}
   })
   router.post('/photo',checkOrigin,requireOsas,photoParser,async(req,res)=>{

@@ -1,0 +1,31 @@
+SAS PORTAL - SUPABASE STORAGE ONLY
+=================================
+This is the full current source extracted from the ZIP you uploaded, with a corrected server/storage-files.cjs.
+No existing uploads were copied or migrated. No local-file fallback exists in the storage adapter.
+
+IMPORTANT: Your uploaded .env.server did NOT contain SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY.
+The full-source ZIP excludes ALL .env files and credentials, so keep your existing .env.server.
+
+Add these to your existing backend .env.server (do not add duplicates):
+  SUPABASE_URL=https://YOUR_PROJECT_REFERENCE.supabase.co
+  SUPABASE_SERVICE_ROLE_KEY=YOUR_SERVICE_ROLE_KEY
+  SUPABASE_STORAGE_BUCKET=sas-portal
+
+Find them in Supabase Dashboard > Project Settings > API / API Keys.
+Never expose your SERVICE_ROLE_KEY in frontend code, VITE_ variables, or GitHub.
+Keep sas-portal PRIVATE.
+
+SETUP:
+1. Keep your current working project and database backup.
+2. Copy this extracted source into your project. Preserve your existing .env.server and .env.local.
+3. Install dependencies if needed: npm install
+4. Restart BOTH frontend and backend: npm run dev
+5. Upload NEW photo and NEW document, check them in Supabase Storage > sas-portal.
+6. Test downloads/previews as both organization and OSAS.
+7. Only then test AR, FS, and renewal uploads and deletion.
+
+Old local uploads are NOT migrated, by your request. Old database entries that point to local-only uploads will not open.
+Upload those documents again if required.
+
+The backend source passed node --check. This has NOT been tested against your actual Supabase bucket.
+If an upload fails, check backend terminal logs and browser Network tab and share the error text without keys.
