@@ -1,4 +1,3 @@
-
 #root {
   width: 100%;
   min-height: 100vh;
@@ -6,4 +5,24 @@
   margin: 0;
   padding: 0;
   text-align: left;
+}
+
+/* Keep notifications above all dialogs and modals */
+.toast-container,
+.toast,
+.notification,
+.notification-container,
+[data-sonner-toaster],
+.Toastify__toast-container {
+  z-index: 99999 !important;
+}
+
+/* Modal layering */
+.modal-backdrop {
+  z-index: 1040;
+}
+
+.modal,
+.modal-dialog {
+  z-index: 1050;
 }

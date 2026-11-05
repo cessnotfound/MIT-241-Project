@@ -1414,3 +1414,23 @@ a {
 .structure-page table td:last-child > div button {
   margin: 0;
 }
+
+/* Keep notifications above all dialogs and modals */
+.toast-container,
+.toast,
+.notification,
+.notification-container,
+[data-sonner-toaster],
+.Toastify__toast-container {
+  z-index: 99999 !important;
+}
+
+/* Modal layering */
+.modal-backdrop {
+  z-index: 1040;
+}
+
+.modal,
+.modal-dialog {
+  z-index: 1050;
+}

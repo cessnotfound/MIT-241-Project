@@ -68,7 +68,7 @@ const fail = (res, err) => {
     if (constraint.includes("resolution") || constraint.includes("issued"))
       return bad(
         res,
-        "This Resolution No. has already been issued for this academic year, possibly on an activity that was later deleted. Choose a different unused number.",
+        "This Resolution No. is already assigned to an existing activity for this academic year. Choose another number.",
         409,
       );
     return bad(
@@ -415,7 +415,7 @@ module.exports = function documentRouter(pool) {
         "SELECT storage_path FROM document_activity_files WHERE activity_id=$1",
         [a.id],
       );
-      // Delete metadata and attachments; the sequence never reuses issued numbers.
+      // Delete metadata and attachments. The database trigger releases this Resolution No. for reuse.
       await pool.query(
         "DELETE FROM document_activities WHERE id=$1 AND organization_id=$2",
         [a.id, req.orgId],

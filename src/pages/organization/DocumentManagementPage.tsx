@@ -340,6 +340,8 @@ export default function DocumentManagementPage() {
           await api(
             `/activities/${created.id}`,
             json("PUT", {
+              // The backend requires the existing resolution number on every update.
+              resolution_number: created.resolution_number,
               activity_title: activityTitle,
               activity_date: activityDate || null,
               description,
@@ -355,7 +357,7 @@ export default function DocumentManagementPage() {
           );
         }
         throw new Error(
-          `Activity was not saved: ${(err as Error).message}. No. ${created.resolution_number} will not be reused.`,
+          `Activity was not saved: ${(err as Error).message}. The incomplete activity was deleted, so Resolution No. ${created.resolution_number} is available again.`,
         );
       }
       setForm(null);
@@ -406,7 +408,7 @@ export default function DocumentManagementPage() {
   async function deleteActivity(a: Activity) {
     if (
       !window.confirm(
-        `Delete Resolution No. ${a.resolution_number}? This resolution number will not be reused.`,
+        `Delete Resolution No. ${a.resolution_number}? After deletion, this number will be available for another activity in this academic year.`,
       )
     )
       return;
