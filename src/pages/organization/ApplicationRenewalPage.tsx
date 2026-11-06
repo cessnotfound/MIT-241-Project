@@ -733,51 +733,16 @@ export default function ApplicationRenewalPage() {
 
       {/* ONLY THE SUBMIT BUTTON — NO CARD OR HEADING */}
       <div className="renewal-submit-only">
-        <button
-          type="button"
+        <a
           className="renewal-templates-download renewal-page-download"
-          title="Download Renewal Forms 1–6"
-          aria-label="Download Renewal Forms 1 through 6"
-          onClick={async () => {
-            try {
-              const response = await fetch(
-                "/api/renewal-templates/all/download",
-                { credentials: "same-origin" },
-              );
-              if (!response.ok) {
-                const json = (await response.json()) as { error?: string };
-                throw new Error(json.error || "Unable to download forms");
-              }
-              const blob = await response.blob();
-              const url = URL.createObjectURL(blob);
-              const anchor = document.createElement("a");
-              anchor.href = url;
-              anchor.download = "Application_Renewal_Forms.zip";
-              anchor.click();
-              URL.revokeObjectURL(url);
-            } catch (e) {
-              setError(
-                e instanceof Error ? e.message : "Unable to download forms",
-              );
-            }
-          }}
+          href="https://drive.google.com/drive/folders/14Uyz219BlUUAYJF_INei1RV4PPUJDq65?usp=sharing"
+          target="_blank"
+          rel="noopener noreferrer"
+          title="Open Renewal Forms 1–6"
+          aria-label="Open Renewal Forms 1 through 6 in Google Drive"
         >
-          <svg
-            viewBox="0 0 24 24"
-            width="18"
-            height="18"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden="true"
-          >
-            <path d="M12 3v12m-4-4 4 4 4-4" />
-            <path d="M5 17v3h14v-3" />
-          </svg>
-          Templates
-        </button>
+          Download Forms 1–6
+        </a>
         {editable ? (
           <button
             type="button"

@@ -27,7 +27,7 @@
   font-weight: 700;
 }
 
-/* Quiet header action, scoped to the organization renewal page. */
+/* Plain text link to the renewal forms folder. */
 .renewal-page .renewal-page-heading {
   display: flex;
   flex-wrap: wrap;
@@ -36,36 +36,31 @@
   gap: 12px;
 }
 
-.renewal-page .renewal-templates-download.renewal-page-download {
+.renewal-page a.renewal-templates-download.renewal-page-download {
+  display: inline;
   margin: 0;
-  padding: 7px 10px;
-  border: 1px solid #cbded0;
-  border-radius: 6px;
-  background: transparent;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
   box-shadow: none;
   color: #176436;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   line-height: 1.4;
-  gap: 6px;
-  white-space: nowrap;
-  flex: 0 0 auto;
+  text-decoration: none;
+  cursor: pointer;
 }
 
-.renewal-page .renewal-templates-download.renewal-page-download:hover {
-  background: #f0f7f2;
-  border-color: #9bc5a7;
+.renewal-page a.renewal-templates-download.renewal-page-download:hover {
+  border: 0;
+  background: none;
   color: #0d512b;
+  text-decoration: underline;
 }
 
-.renewal-page .renewal-templates-download.renewal-page-download:focus-visible {
-  outline: 2px solid #137632;
-  outline-offset: 3px;
-}
-
-.renewal-page .renewal-page-download svg {
-  width: 15px;
-  height: 15px;
+.renewal-page a.renewal-templates-download.renewal-page-download:focus-visible {
+  outline: none;
 }
 
 /* RECOGNITION INFORMATION */
@@ -430,24 +425,25 @@
   cursor: not-allowed;
 }
 
-/* Secondary Templates action below the six forms. */
+/* Plain text link displayed below the six forms. */
 .renewal-page .renewal-submit-only .renewal-page-download {
-  min-height: 34px;
+  min-height: 0;
   margin-right: auto;
-  padding: 7px 11px;
-  border: 1px solid #cbded0;
-  border-radius: 6px;
-  background: #fff;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
   color: #176436;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   box-shadow: none;
 }
 
 .renewal-page .renewal-submit-only .renewal-page-download:hover:not(:disabled) {
-  background: #f0f7f2;
+  border: 0;
+  background: none;
   color: #0d512b;
-  border-color: #9bc5a7;
+  text-decoration: underline;
 }
 
 /* MESSAGES */

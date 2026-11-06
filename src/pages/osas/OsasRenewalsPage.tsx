@@ -1,4 +1,3 @@
-import RenewalTemplateModal from "./RenewalTemplateModal";
 import { useEffect, useMemo, useState } from "react";
 import { osasGet } from "./osasTypes";
 import FeedbackNotification from "../../components/FeedbackNotification";
@@ -156,7 +155,6 @@ const formatDate = (value: string) => {
 };
 
 export default function OsasRenewalsPage() {
-  const [showTemplates, setShowTemplates] = useState(false);
   const [list, setList] = useState<Application[]>([]);
   const [selected, setSelected] = useState<string | null>(null);
   const [detail, setDetail] = useState<Detail | null>(null);
@@ -311,9 +309,6 @@ export default function OsasRenewalsPage() {
           setNotice("");
         }}
       />
-      {showTemplates && (
-        <RenewalTemplateModal onClose={() => setShowTemplates(false)} />
-      )}
       {selected ? (
         <>
           <div className="osas-renewal-review-header">
@@ -586,13 +581,6 @@ export default function OsasRenewalsPage() {
           <p className="osas-muted">
             Review and comment on submitted Forms 1–6.
           </p>
-          <button
-            type="button"
-            className="osas-primary renewal-manage-templates-button"
-            onClick={() => setShowTemplates(true)}
-          >
-            Manage Templates
-          </button>
           <div
             className="osas-renewal-status-tabs"
             role="group"
