@@ -30,18 +30,4 @@ Create the required local environment configuration for the backend and provide 
 4. Run the system
 npm run dev
 
-Project Structure
-MIT-241-Project/
-├── server/                 # Express backend and API routes
-├── src/
-│   ├── components/         # Reusable React components
-│   ├── pages/              # Organization and OSAS pages
-│   ├── styles/             # Application styles
-│   ├── App.tsx             # Main application component
-│   └── main.tsx            # Frontend entry point
-├── public/                 # Static assets
-├── package.json
-├── tsconfig.json
-└── vite.config.ts
-
 
