@@ -1,75 +1,78 @@
-# React + TypeScript + Vite
+SAS Portal – Student Affairs and Services
+A web-based Student Affairs and Services (SAS) Portal for Mariano Marcos State University (MMSU). The system supports student organizations in submitting and managing their requirements, while the Office of Student Affairs and Services (OSAS) can review submissions and manage organization records.
+Features
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Organization Portal
+- Organization account access and organization profile management.
+- Accomplishment Report (AR) submission and management.
+- Activity, participation, award, and tangible project records.
+- Financial Statement (FS) submission and management.
+- Document registration, tracking, and file management.
+- Renewal application submission and supporting forms.
+- 
+OSAS Portal
+- Review and manage organization information.
+- Review submitted Accomplishment Reports.
+- Review submitted Financial Statements.
+- Manage and track organization documents.
+- Review organization renewal applications.
+- Access administrative workflows for student organization services.
+- 
+Technologies Used
+- React
+- TypeScript
+- Vite
+- Node.js
+- Express.js
+- Supabase
+- PostgreSQL
+System Setup
+Requirements
+- Node.js
+- npm
+- Supabase project and database
+  
+1. Clone the repository
+git clone https://github.com/cessnotfound/MIT-241-Project.git
+cd MIT-241-Project
+2. Install dependencies
+npm install
+3. Configure the application
+Create the required local environment configuration for the backend and provide the Supabase database and storage connection settings used by the project.
+4. Run the system
+npm run dev
+Open the frontend in your browser:
+http://localhost:5173
+The backend runs on:
+http://localhost:3001
+Available Scripts
+Command	Description
+npm install	Install project dependencies
+npm run dev	Run the frontend and backend development servers
+npm run dev:client	Run the frontend development server
+npm run dev:server	Run the backend development server
+npm run build	Build the frontend for production
+npm run lint	Run code linting
+npm run preview	Preview the production build
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Project Structure
+MIT-241-Project/
+├── server/                 # Express backend and API routes
+├── src/
+│   ├── components/         # Reusable React components
+│   ├── pages/              # Organization and OSAS pages
+│   ├── styles/             # Application styles
+│   ├── App.tsx             # Main application component
+│   └── main.tsx            # Frontend entry point
+├── public/                 # Static assets
+├── package.json
+├── tsconfig.json
+└── vite.config.ts
 
-## React Compiler
+Database
+The system uses Supabase PostgreSQL for application data and Supabase Storage for uploaded files. The backend communicates with the database and storage services through the application's server-side API.
+Project
+Repository: https://github.com/cessnotfound/MIT-241-Project
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
-```
-
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
-```
+Institution: Mariano Marcos State University (MMSU)
